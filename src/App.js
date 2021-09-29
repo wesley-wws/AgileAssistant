@@ -1,10 +1,10 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Drawer from '@mui/material/Drawer';
+import Button from '@mui/material/Button';
 import Participant from './components/Participant';
 import { pokerKeys } from './models/Poker';
 

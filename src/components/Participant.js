@@ -1,8 +1,8 @@
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import makeStyles from '@mui/styles/makeStyles';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
 import PokerContainer from './PokerContainer';
 
 const useStyles = makeStyles({

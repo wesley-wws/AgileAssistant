@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import Participant from './components/Participant';
-import { pokerKeys } from './models/Poker';
+import  pokerKeys  from './models/PokerKeys';
 
 const participants = [
 	{

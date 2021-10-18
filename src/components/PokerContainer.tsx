@@ -1,5 +1,5 @@
 import { withStyles, WithStyles } from '@mui/styles';
-import { pokerKeys } from '../models/Poker';
+import  pokerKeys  from '../models/PokerKeys';
 
 import Poker_One from '../images/1.png';
 import Poker_Cover from '../images/cover.png';

@@ -1,71 +1,58 @@
 import React from 'react';
-import { withStyles, WithStyles }  from '@mui/styles';
 import Grid from '@mui/material/Grid';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import Participant from './components/Participant';
-import  pokerKeys  from './models/PokerKeys';
+import PokerKeys from './interfaces/PokerKeys';
+import PokerSelector from './components/PokerSelector';
 
 const participants = [
 	{
 		userName: 'Wesley',
-		pokerKey: pokerKeys.one,
+		pokerKey: PokerKeys.One,
 		isShown: false,
 	},
 	{
 		userName: 'Rick',
-		pokerKey: pokerKeys.coffee,
+		pokerKey: PokerKeys.Coffee,
 		isShown: false,
 	},
 	{
 		userName: 'Rick2',
-		pokerKey: pokerKeys.coffee,
+		pokerKey: PokerKeys.Coffee,
 		isShown: false,
 	},
 	{
 		userName: 'Rick3',
-		pokerKey: pokerKeys.coffee,
+		pokerKey: PokerKeys.Coffee,
 		isShown: false,
 	},
 	{
 		userName: 'Rick4',
-		pokerKey: pokerKeys.coffee,
+		pokerKey: PokerKeys.Coffee,
 		isShown: false,
 	},
 	{
 		userName: 'Rick5',
-		pokerKey: pokerKeys.coffee,
+		pokerKey: PokerKeys.Coffee,
 		isShown: false,
 	},
 	{
 		userName: 'Rick6',
-		pokerKey: pokerKeys.coffee,
+		pokerKey: PokerKeys.Coffee,
 		isShown: false,
 	},
 	{
 		userName: 'Rick7',
-		pokerKey: pokerKeys.coffee,
+		pokerKey: PokerKeys.Coffee,
 		isShown: false,
 	},
 ];
 
 const drawerWidth = 240;
-const styles = {
-	root: {
-		display: 'flex',
-	},
-	participantContainer: {
-		padding: '20px',
-		width: `calc(100% - ${drawerWidth}px)`,
-		marginRight: drawerWidth,
-	},
-	drawerPaper: {
-		width: drawerWidth,
-	},
-};
 
-class App extends React.Component<WithStyles<typeof styles>, any> {
-	constructor(props: WithStyles<typeof styles>) {
+class App extends React.Component<any, any> {
+	constructor(props: any) {
 		super(props);
 
 		this.state = {
@@ -75,17 +62,17 @@ class App extends React.Component<WithStyles<typeof styles>, any> {
 
 	updateState() {
 		this.setState((state: any) => {
-			const participants = state.participants.map((p:any) => ({ ...p, isShown: !p.isShown }));
+			const participants = state.participants.map((p: any) => ({ ...p, isShown: !p.isShown }));
 			return {
 				participants: participants,
 			};
 		});
 	}
 
-	renderParticipantContainer() {
+	renderParticipantsContainer() {
 		return (
-			<Grid container spacing={3} justifyContent="space-around" className={this.props.classes.participantContainer}>
-				{this.state.participants.map((p:any) => (
+			<Grid container spacing={3} justifyContent="space-around">
+				{this.state.participants.map((p: any) => (
 					<Grid key={p.userName} item>
 						<Participant userName={p.userName} pokerKey={p.pokerKey} isShown={p.isShown} />
 					</Grid>
@@ -96,23 +83,37 @@ class App extends React.Component<WithStyles<typeof styles>, any> {
 
 	render() {
 		return (
-			<div className={this.props.classes.root}>
-				{this.renderParticipantContainer()}
+			<>
+				<Grid
+					container
+					sx={{
+						width: `calc(100% - ${drawerWidth}px)`,
+						marginRight: `${drawerWidth}px`,
+					}}
+				>
+					{this.renderParticipantsContainer()}
+					<PokerSelector onPokerSelected={(key)=>console.log(key)}></PokerSelector>
+				</Grid>
 				<Drawer
 					open
 					anchor="right"
 					variant="permanent"
-					classes={{
-						paper: this.props.classes.drawerPaper,
+					sx={{
+						width: drawerWidth,
+						flexShrink: 0,
+						'& .MuiDrawer-paper': {
+							width: drawerWidth,
+							boxSizing: 'border-box',
+						},
 					}}
 				>
 					<Button variant="contained" color="primary" onClick={(e) => this.updateState()}>
 						hello world
 					</Button>
 				</Drawer>
-			</div>
+			</>
 		);
 	}
 }
 
-export default withStyles(styles)(App);
+export default App;

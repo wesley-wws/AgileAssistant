@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from '@mui/material/Grid';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import Participant from './components/Participant';
 import PokerKeys from './interfaces/PokerKeys';
 import PokerSelector from './components/PokerSelector';
@@ -57,6 +58,7 @@ class App extends React.Component<any, any> {
 
 		this.state = {
 			participants: participants,
+			selectedPokerKey: '',
 		};
 	}
 
@@ -92,7 +94,13 @@ class App extends React.Component<any, any> {
 					}}
 				>
 					{this.renderParticipantsContainer()}
-					<PokerSelector onPokerSelected={(key)=>console.log(key)}></PokerSelector>
+					<PokerSelector
+						onPokerSelected={(key) =>
+							this.setState({
+								selectedPokerKey: key,
+							})
+						}
+					></PokerSelector>
 				</Grid>
 				<Drawer
 					open
@@ -107,9 +115,27 @@ class App extends React.Component<any, any> {
 						},
 					}}
 				>
-					<Button variant="contained" color="primary" onClick={(e) => this.updateState()}>
+					<Button
+						sx={{
+							marginTop: '20px',
+						}}
+						variant="contained"
+						color="primary"
+						onClick={(e) => this.updateState()}
+					>
 						hello world
 					</Button>
+					<TextField
+						sx={{
+							marginTop: '20px',
+						}}
+						label="Selected Poker"
+						variant="outlined"
+						value={this.state.selectedPokerKey}
+						InputProps={{
+							readOnly: true,
+						}}
+					/>
 				</Drawer>
 			</>
 		);

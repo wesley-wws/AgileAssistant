@@ -15,8 +15,6 @@ import Poker_Coffee from '../images/coffee.png';
 
 function getPokerImage(key: PokerKeys) {
 	switch (key) {
-		case PokerKeys.Cover:
-			return Poker_Cover;
 		case PokerKeys.Coffee:
 			return Poker_Coffee;
 		case PokerKeys.One:
@@ -44,9 +42,9 @@ function getPokerImage(key: PokerKeys) {
 
 const getSX = (props: any) => {
 	return {
-		width: '160px',
-		height: '240px',
-		transition: '0.5s ease-in-out',
+		width: props.width ? props.width + 'px' : '160px',
+		height: props.height ? props.height + 'px' : '240px',
+		transition: 'transform 0.5s ease-in-out,width 0.3s, height 0.3s',
 		transform: () => (props.isShown ? 'rotateY(180deg) scaleX(-1)' : ''),
 		backgroundSize: 'cover',
 		backgroundImage: () => (props.isShown ? `url(${getPokerImage(props.pokerKey)})` : `url(${Poker_Cover})`),

@@ -28,6 +28,12 @@ namespace PlaningPoker.Web
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddSignalR();
+
+            services.AddMeetingManager();
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,7 +41,9 @@ namespace PlaningPoker.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage(); 
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
             else
             {
@@ -66,6 +74,8 @@ namespace PlaningPoker.Web
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
+            app.UsePlaningPokerHubs();
         }
     }
 }

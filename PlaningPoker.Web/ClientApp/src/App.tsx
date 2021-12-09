@@ -6,6 +6,8 @@ import TextField from '@mui/material/TextField';
 import Participant from './components/Participant';
 import PokerKeys from './interfaces/PokerKeys';
 import PokerSelector from './components/PokerSelector';
+import MeetingViewer from './components/MeetingViewer';
+import * as signalR from '@microsoft/signalr';
 
 const participants = [
 	{
@@ -53,13 +55,35 @@ const participants = [
 const drawerWidth = 240;
 
 class App extends React.Component<any, any> {
+	_connection: signalR.HubConnection | null = null;
+
 	constructor(props: any) {
 		super(props);
 
 		this.state = {
 			participants: participants,
 			selectedPokerKey: '',
+			inputUserName: '',
 		};
+	}
+
+	componentDidMount() {
+		this._connection = new signalR.HubConnectionBuilder().withUrl('/groominghub').build();
+		this._connection.on('selectPoker', (model: any) => {
+			this.setState((state: any) => {
+				const participants = state.participants.map((p: any) => {
+					if (p.userName === model.userName) {
+						p.pokerKey = model.pokerKey;
+					}
+					return p;
+				});
+				return {
+					participants: participants,
+				};
+			});
+		});
+
+		this._connection.start();
 	}
 
 	updateState() {
@@ -101,6 +125,7 @@ class App extends React.Component<any, any> {
 							})
 						}
 					></PokerSelector>
+					<MeetingViewer></MeetingViewer>
 				</Grid>
 				<Drawer
 					open
@@ -123,7 +148,7 @@ class App extends React.Component<any, any> {
 						color="primary"
 						onClick={(e) => this.updateState()}
 					>
-						hello world
+						Open/Hide
 					</Button>
 					<TextField
 						sx={{
@@ -136,6 +161,31 @@ class App extends React.Component<any, any> {
 							readOnly: true,
 						}}
 					/>
+					<TextField
+						sx={{
+							marginTop: '20px',
+						}}
+						label="User Name"
+						variant="outlined"
+						value={this.state.inputUserName}
+						onChange={(e) =>
+							this.setState({
+								inputUserName: e.target.value,
+							})
+						}
+					/>
+					<Button
+						sx={{
+							marginTop: '20px',
+						}}
+						variant="contained"
+						color="primary"
+						onClick={(e) => {
+							this._connection?.send('selectPoker', this.state.inputUserName, this.state.selectedPokerKey);
+						}}
+					>
+						Select Poker
+					</Button>
 				</Drawer>
 			</>
 		);

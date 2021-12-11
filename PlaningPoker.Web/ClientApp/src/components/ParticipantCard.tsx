@@ -10,6 +10,7 @@ interface Props {
 }
 
 export default function ParticipantCard(props: Props) {
+	console.log(props.participant.selectedPokerKey);
 	return (
 		<Card elevation={3}>
 			<Poker pokerKey={props.participant.selectedPokerKey} isShown={props.participant.isShown} />

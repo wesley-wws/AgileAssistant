@@ -14,9 +14,9 @@ export default function ParticipantsViewer(props: Props) {
         )
     }
 	return (
-		<Grid container spacing={3} justifyContent="center" sx={{ minHeight: '100%', width: '100%' }}>
+		<Grid container justifyContent="center" sx={{ minHeight: '100%', width: '100%' }}>
 			{props.participants.map((p: IParticipant) => (
-				<Grid key={p.name} item>
+				<Grid key={p.name} item p={1}>
 					<ParticipantCard participant={p} />
 				</Grid>
 			))}

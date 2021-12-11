@@ -10,7 +10,7 @@ namespace PlaningPoker.MeetingManager
     {
         public string Name { get; init; }
 
-        public string SelectedPoker { get; set; }
+        public string SelectedPokerKey { get; set; }
 
         public GroomingParticipant(string name)
         {

@@ -68,6 +68,7 @@ namespace PlaningPoker.MeetingManager
             }
         }
 
+
         #region Dispose
 
         // Track whether Dispose has been called.

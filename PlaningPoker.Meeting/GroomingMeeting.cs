@@ -39,12 +39,12 @@ namespace PlaningPoker.MeetingManager
             return _participants.TryRemove(name, out _);
         }
 
-        public bool UpdateParticipant(string name,string selectedPokerKey)
+        public bool UpdateParticipantPoker(string name,string selectedPokerKey)
         {
             UpdateActiveDate();
             if (_participants.TryGetValue(name,out GroomingParticipant participant))
             {
-                participant.SelectedPoker = selectedPokerKey;
+                participant.SelectedPokerKey = selectedPokerKey;
                 return true;
             }
 

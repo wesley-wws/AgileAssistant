@@ -34,6 +34,15 @@ namespace PlaningPoker.MeetingManager
             return _id_meeting_mapping.Values;
         }
 
+        public GroomingMeeting Get(string meetingId)
+        {
+            if (_id_meeting_mapping.TryGetValue(meetingId, out GroomingMeeting result))
+            {
+                return result;
+            }
+            return null;
+        }
+
         public bool Add(GroomingMeeting meeting)
         {
             return _id_meeting_mapping.TryAdd(meeting.Id, meeting);

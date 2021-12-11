@@ -1,12 +1,14 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Participant from './components/Participant';
+import ParticipantCard from './components/ParticipantCard';
 import PokerKeys from './interfaces/PokerKeys';
 import PokerSelector from './components/PokerSelector';
-import MeetingViewer from './components/MeetingViewer';
+import MeetingViewer from './components/MeetingsViewer';
+import MeetingLauncher from './components/MeetingLauncher';
 import * as signalR from '@microsoft/signalr';
 
 const participants = [
@@ -100,7 +102,7 @@ class App extends React.Component<any, any> {
 			<Grid container spacing={3} justifyContent="space-around">
 				{this.state.participants.map((p: any) => (
 					<Grid key={p.userName} item>
-						<Participant userName={p.userName} pokerKey={p.pokerKey} isShown={p.isShown} />
+						<ParticipantCard participant={p} />
 					</Grid>
 				))}
 			</Grid>
@@ -117,15 +119,25 @@ class App extends React.Component<any, any> {
 						marginRight: `${drawerWidth}px`,
 					}}
 				>
-					{this.renderParticipantsContainer()}
-					<PokerSelector
-						onPokerSelected={(key) =>
-							this.setState({
-								selectedPokerKey: key,
-							})
-						}
-					></PokerSelector>
-					<MeetingViewer></MeetingViewer>
+					<Stack
+						justifyContent="center"
+						alignItems="center"
+						spacing={2}
+						sx={{
+							minWidth: `calc(100% - ${drawerWidth}px)`,
+						}}
+					>
+						{this.renderParticipantsContainer()}
+						<PokerSelector
+							onPokerSelected={(key) =>
+								this.setState({
+									selectedPokerKey: key,
+								})
+							}
+						/>
+						<MeetingViewer />
+						<MeetingLauncher />
+					</Stack>
 				</Grid>
 				<Drawer
 					open

@@ -16,6 +16,8 @@ namespace PlaningPoker.Hubs
     {
         Task AddParticipant(string userName);
 
+        Task AddParticipant(string userName, string meetingId);
+
         Task SelectPoker(string userName,string pokerKey);
 
         Task ChangeTopic(string topic);

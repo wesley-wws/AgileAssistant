@@ -38,6 +38,7 @@ function PokerSelector(props: Props) {
 		<Grid
 			sx={{
 				overflowX: 'scroll',
+				maxWidth:'100%'
 			}}
 		>
 			<Stack

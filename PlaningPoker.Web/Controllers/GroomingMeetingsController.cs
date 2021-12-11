@@ -16,9 +16,9 @@ namespace PlaningPoker.Web.Controllers
     public class GroomingMeetingsController : ControllerBase
     {
         private readonly GroomingMeetingManager _meetingManager;
-        private readonly IHubContext<GroomingHub> _groomingHubContext;
+        private readonly IHubContext<GroomingHub,IGroomingHubClient> _groomingHubContext;
 
-        public GroomingMeetingsController(GroomingMeetingManager meetingManager, IHubContext<GroomingHub> groomingHubContext)
+        public GroomingMeetingsController(GroomingMeetingManager meetingManager, IHubContext<GroomingHub,IGroomingHubClient> groomingHubContext)
         {
             _meetingManager = meetingManager;
             _groomingHubContext = groomingHubContext;
@@ -33,18 +33,51 @@ namespace PlaningPoker.Web.Controllers
             return _meetingManager.All();
         }
 
+        [HttpGet("{meetingId}")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public GroomingMeeting GetGroomingMeeting(string meetingId)
+        {
+            return _meetingManager.Get(meetingId);
+        }
+
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult AddGroomingMeeting(string id, string topic)
+        public ActionResult AddGroomingMeeting(string meetingId, string topic)
         {
-            var isSucceed = _meetingManager.Add(new GroomingMeeting(id, topic));
+            var isSucceed = _meetingManager.Add(new GroomingMeeting(meetingId, topic));
             if (!isSucceed)
             {
                 return BadRequest("Meeting exists!");
             }
+            return Ok();
+        }
+
+        [HttpGet("{meetingId}/join")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult AddParticipant(string meetingId, string userName)
+        {
+            var meeting = _meetingManager.Get(meetingId);
+            if (meeting == null)
+            {
+                return BadRequest("The meeting does not exist!");
+            }
+
+            var isSucceed = meeting.Join(userName);
+            if (!isSucceed)
+            {
+                return BadRequest("The user already exist!");
+            }
+
+            _groomingHubContext.Clients.All.AddParticipant(userName, meetingId);
+
             return Ok();
         }
     }

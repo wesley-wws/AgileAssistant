@@ -16,10 +16,9 @@ interface IParams {
 export default function MeetingHostPage(props: Props) {
 	const params = useParams<keyof IParams>();
 	const [meeting, setMeeting] = useState<any>(null);
-	const [meetingLink, setMeetingLink] = useState<any>(`${window.location.host}/launcher/${params.meetingId}`);
+	const [meetingLink] = useState<any>(`${window.location.protocol}//${window.location.host}/launcher/${params.meetingId}`);
 	const [isShownAll, setIsShownAll] = useState<any>(false);
 
-	const [connection] = useState<any>(new signalR.HubConnectionBuilder().withUrl('/groominghub').build());
 	useEffect(() => {
 		// https://reactjs.org/docs/hooks-faq.html#what-can-i-do-if-my-effect-dependencies-change-too-often
 		if (params.meetingId === undefined) {
@@ -27,13 +26,16 @@ export default function MeetingHostPage(props: Props) {
 		}
 
 		apiCenter.GetMeetingAsync(params.meetingId).then((response) => {
-			console.log(response.data);
 			setMeeting(response.data);
 		});
 	}, [params.meetingId]);
 
 	useEffect(() => {
-		function addParticipant(userName: string, meetingId: string) {
+		const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl('/groominghub').build();
+
+		hubConnection.start();
+
+		hubConnection.on('AddParticipant', (userName: string, meetingId: string) => {
 			setMeeting((preMeeting: any) => {
 				if (preMeeting == null || meetingId !== preMeeting.id) {
 					return preMeeting;
@@ -51,10 +53,9 @@ export default function MeetingHostPage(props: Props) {
 				newMeeting.participants = [...newMeeting.participants, participant];
 				return newMeeting;
 			});
-		}
-		connection.on('AddParticipant', addParticipant);
+		});
 
-		connection.on('SelectPoker', (userName: string, meetingId: string, pokerKey: string) => {
+		hubConnection.on('SelectPoker', (userName: string, meetingId: string, pokerKey: string) => {
 			setMeeting((preMeeting: any) => {
 				if (preMeeting == null || meetingId !== preMeeting.id) {
 					return preMeeting;
@@ -66,11 +67,14 @@ export default function MeetingHostPage(props: Props) {
 					}
 					return { ...p };
 				});
-				return {...preMeeting};
+				return { ...preMeeting };
 			});
 		});
-		connection.start();
-	}, [connection]);
+
+		return () => {
+            hubConnection.stop();
+        };
+	}, []);
 
 	if (!meeting) {
 		return <div>Loading</div>;

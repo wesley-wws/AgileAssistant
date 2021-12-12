@@ -14,7 +14,6 @@ interface IPropState {
 
 export default function MeetingParticipantPage(props: any) {
 	const params = useParams<keyof IParams>();
-	console.log(props);
 	const routeState = useLocation().state as IPropState;
 	const [meeting, setMeeting] = useState<any>(null);
 

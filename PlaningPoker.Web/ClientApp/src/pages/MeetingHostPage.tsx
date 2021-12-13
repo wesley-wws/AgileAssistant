@@ -116,7 +116,26 @@ export default function MeetingHostPage(props: Props) {
 					variant="contained"
 					color="primary"
 					onClick={(e) => {
-						navigator.clipboard.writeText(meetingLink);
+						if (navigator.clipboard && window.isSecureContext) {
+							// navigator clipboard api method'
+							navigator.clipboard.writeText(meetingLink);
+						} else {
+							// text area method
+							let textArea = document.createElement("textarea");
+							textArea.value = meetingLink;
+							// make the textarea out of viewport
+							textArea.style.position = "fixed";
+							textArea.style.left = "-999999px";
+							textArea.style.top = "-999999px";
+							document.body.appendChild(textArea);
+							textArea.focus();
+							textArea.select();
+							return new Promise((res, rej) => {
+								// here the magic happens
+								document.execCommand('copy') ? res(true) : rej(false);
+								textArea.remove();
+							});
+						}
 					}}
 				>
 					Copy Meeting Link

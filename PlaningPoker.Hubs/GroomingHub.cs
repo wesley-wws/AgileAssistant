@@ -9,7 +9,6 @@ namespace PlaningPoker.Hubs
 {
     public class GroomingHub : Hub<IGroomingHubClient>
     {
-
     }
 
     public interface IGroomingHubClient

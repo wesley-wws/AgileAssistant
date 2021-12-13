@@ -10,6 +10,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaningPoker.Meeting", "PlaningPoker.Meeting\PlaningPoker.Meeting.csproj", "{F8B7596A-27D4-4115-8F79-5F5F96524ACC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D1820CCA-260E-436F-B033-C6A0A438E3B2}"
+	ProjectSection(SolutionItems) = preProject
+		TempCmd.txt = TempCmd.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -25,7 +25,7 @@ namespace PlaningPoker.MeetingManager
                 ClearInactivedMeetings();
             };
             _timer.AutoReset = true;
-            _timer.Enabled = true;
+            _timer.Start();
         }
 
 

@@ -9,6 +9,10 @@ namespace PlaningPoker.Hubs
 {
     public class GroomingHub : Hub<IGroomingHubClient>
     {
+        public async Task AddToGroup(string meetingId)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, meetingId);
+        }
     }
 
     public interface IGroomingHubClient

@@ -6,20 +6,23 @@ EXPOSE 80
 EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+
+RUN apt-get update \
+    && apt-get install -y curl \
+    && apt-get install -y libpng-dev libjpeg-dev curl libxi6 build-essential libgl1-mesa-glx \
+    && curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+    && apt-get install -y nodejs
+
+
 WORKDIR /src
 COPY ["PlaningPoker.Web/PlaningPoker.Web.csproj", "PlaningPoker.Web/"]
 COPY ["PlaningPoker.Hubs/PlaningPoker.Hubs.csproj", "PlaningPoker.Hubs/"]
 COPY ["PlaningPoker.Meeting/PlaningPoker.Meeting.csproj", "PlaningPoker.Meeting/"]
 RUN dotnet restore "PlaningPoker.Web/PlaningPoker.Web.csproj"
+
 COPY . .
 WORKDIR "/src/PlaningPoker.Web"
 RUN dotnet build "PlaningPoker.Web.csproj" -c Release -o /app/build
-
-RUN apt-get update && \
-    apt-get install -y wget && \
-    apt-get install -y gnupg2 && \
-    wget -qO- https://deb.nodesource.com/setup_10.x | bash - && \
-    apt-get install -y build-essential nodejs
 
 FROM build AS publish
 RUN dotnet publish "PlaningPoker.Web.csproj" -c Release -o /app/publish

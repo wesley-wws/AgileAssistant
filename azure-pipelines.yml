@@ -10,7 +10,7 @@ resources:
 
 variables: 
   tag: '$(Build.BuildId)'
-  dockerImageName: '$(Build.Repository.Name)/$(System.TeamProject)'
+  dockerImageName: '$(System.TeamProject)'
   
 
 stages:
@@ -34,7 +34,7 @@ stages:
     - task: CmdLine@2
       displayName: 'Save Docker image'
       inputs:
-        script: 'docker image save planingpoker:$(tag) -o $(Build.ArtifactStagingDirectory)/$(System.TeamProject).tar'
+        script: 'docker image save planingpoker:$(tag) -o $(Build.ArtifactStagingDirectory)/$(System.TeamProject)-$(tag).tar'
         failOnStderr: true
     
     - task: PublishPipelineArtifact@1

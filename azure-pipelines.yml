@@ -19,11 +19,18 @@ stages:
     displayName: Build
     pool: 'Default'
     steps:
+
     - task: Docker@2
       displayName: Build an image
       inputs:
         command: build
         buildContext: $(Build.Repository.LocalPath)
         dockerfile: '$(Build.SourcesDirectory)/PlaningPoker.Web/Dockerfile'
+        arguments: -t planingpoker
         tags: |
           $(tag)
+    - task: Docker@0
+      displayName: 'Run a Docker command'
+      inputs:
+        action: 'Run a Docker command'
+        customCommand: 'image save planingpoker:$(tag) -o $(Build.ArtifactStagingDirectory)/planingpoker.tar'

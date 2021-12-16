@@ -23,6 +23,7 @@ stages:
       displayName: Build an image
       inputs:
         command: build
+        buildContext: $(Build.Repository.LocalPath)
         dockerfile: '$(Build.SourcesDirectory)/PlaningPoker.Web/Dockerfile'
         tags: |
           $(tag)

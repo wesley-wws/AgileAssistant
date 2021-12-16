@@ -34,11 +34,12 @@ stages:
     - task: CmdLine@2
       displayName: 'Save Docker image'
       inputs:
-        script: 'docker image save planingpoker:$(tag) -o $(Build.ArtifactStagingDirectory)/$(System.TeamProject)-$(tag).tar'
+        script: 'docker image save planingpoker:$(tag) -o $(Build.ArtifactStagingDirectory)/$(System.TeamProject).tar'
         failOnStderr: true
     
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)'
         publishLocation: 'pipeline'
+        artifactName: '$(System.TeamProject)'
     

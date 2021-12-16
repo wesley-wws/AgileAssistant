@@ -8,8 +8,10 @@ trigger:
 resources:
 - repo: self
 
-variables:
+variables: 
   tag: '$(Build.BuildId)'
+  dockerImageName: '$(System.CollectionUri)/$(System.TeamProject)'
+  
 
 stages:
 - stage: Build
@@ -24,13 +26,19 @@ stages:
       displayName: Build an image
       inputs:
         command: build
-        buildContext: $(Build.Repository.LocalPath)
+        buildContext: $(Build.SourcesDirectory)
         dockerfile: '$(Build.SourcesDirectory)/PlaningPoker.Web/Dockerfile'
-        arguments: -t planingpoker
+        arguments: -t $(dockerImageName):$(tag)
         tags: |
           $(tag)
-    - task: Docker@0
-      displayName: 'Run a Docker command'
+    - task: CmdLine@2
+      displayName: 'Save Docker image'
       inputs:
-        action: 'Run a Docker command'
-        customCommand: 'image save planingpoker:$(tag) -o $(Build.ArtifactStagingDirectory)/planingpoker.tar'
+        script: 'docker image save planingpoker:$(tag) -o $(Build.ArtifactStagingDirectory)/$(System.TeamProject).tar'
+        failOnStderr: true
+    
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Build.ArtifactStagingDirectory)'
+        publishLocation: 'pipeline'
+    

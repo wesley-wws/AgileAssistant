@@ -10,7 +10,7 @@ resources:
 
 variables: 
   tag: '$(Build.BuildId)'
-  dockerImageName: '$(System.CollectionUri)/$(System.TeamProject)'
+  dockerImageName: '$(Build.Repository.Name)/$(System.TeamProject)'
   
 
 stages:

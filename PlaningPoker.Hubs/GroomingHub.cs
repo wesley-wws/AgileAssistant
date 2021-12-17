@@ -17,12 +17,28 @@ namespace PlaningPoker.Hubs
 
     public interface IGroomingHubClient
     {
-        Task AddParticipant(string userName);
+        Task AddParticipant(string meetingId, string userName);
 
-        Task AddParticipant(string userName, string meetingId);
+        Task SelectPoker(string meetingId, string userName, string pokerKey);
 
-        Task SelectPoker(string userName, string meetingId, string pokerKey);
+        Task ChangeTopic(string meetingId, string topic);
+    }
 
-        Task ChangeTopic(string topic, string meetingId);
+    public static class Extensions
+    {
+        public static Task AddParticipant_BroadcastGroup(this IHubContext<GroomingHub, IGroomingHubClient> context, string meetingId, string userName)
+        {
+            return context.Clients.Group(meetingId).AddParticipant(meetingId,userName);
+        }
+
+        public static Task SelectPoker_BroadcastGroup(this IHubContext<GroomingHub, IGroomingHubClient> context, string meetingId, string userName, string pokerKey)
+        {
+            return context.Clients.Group(meetingId).SelectPoker(meetingId,userName, pokerKey);
+        }
+
+        public static Task ChangeTopic_BroadcastGroup(this IHubContext<GroomingHub, IGroomingHubClient> context, string meetingId, string topic)
+        {
+            return context.Clients.Group(meetingId).ChangeTopic(meetingId,topic);
+        }
     }
 }

@@ -2,27 +2,29 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Timers;
 
-namespace PlaningPoker.MeetingManager
+namespace PlaningPoker.Meeting
 {
     public class GroomingMeetingManager : IDisposable
     {
-        private readonly int _meetingClearIntervalHours = 2;
-        private readonly int _meetingUnactiveHours = 4;
+        private readonly GroomingMeetingManagerOptions _options;
 
         private readonly Timer _timer;
 
         private readonly ConcurrentDictionary<string, GroomingMeeting> _id_meeting_mapping;
 
-        public GroomingMeetingManager()
+        public GroomingMeetingManager(GroomingMeetingManagerOptions options)
         {
+            _options = options;
+
             _id_meeting_mapping = new ConcurrentDictionary<string, GroomingMeeting>();
 
-            _timer = new Timer(new TimeSpan(_meetingClearIntervalHours, 0, 0).TotalMilliseconds);
-            _timer.Elapsed += (obj, Event) =>
+            _timer = new Timer(_options.MeetingClearInterval.TotalMilliseconds);
+            _timer.Elapsed += async (obj, Event) =>
             {
-                ClearInactivedMeetings();
+                await ClearInactivedMeetings();
             };
             _timer.AutoReset = true;
             _timer.Start();
@@ -53,19 +55,30 @@ namespace PlaningPoker.MeetingManager
             return _id_meeting_mapping.TryRemove(meetingId, out _);
         }
 
-        public void ClearInactivedMeetings()
+        public async Task<List<GroomingMeeting>> ClearInactivedMeetings(bool triggerClearEvent = true)
         {
+            var clearedMeetings = new List<GroomingMeeting>();
             foreach (var meetingId in _id_meeting_mapping.Keys.ToList())
             {
                 if (!_id_meeting_mapping.TryGetValue(meetingId, out GroomingMeeting meeting) ||
                     meeting.IsParticipantExists() ||
-                    !meeting.IsExpired(_meetingUnactiveHours))
+                    !meeting.IsExpired(_options.MaxMeetingIdleTime))
                 {
                     continue;
                 }
 
-                _id_meeting_mapping.TryRemove(meetingId, out _);
+                if (_id_meeting_mapping.TryRemove(meetingId, out _))
+                {
+                    clearedMeetings.Add(meeting);
+                }
             }
+
+            if (triggerClearEvent)
+            {
+                await _options.OnMeetingClearedAsync?.Invoke(clearedMeetings);
+            }
+
+            return clearedMeetings;
         }
 
 

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
 using PlaningPoker.Hubs;
-using PlaningPoker.MeetingManager;
+using PlaningPoker.Meeting;
 using PlaningPoker.Web.ViewModels.GroomingMeetings;
 using System;
 using System.Collections.Generic;
@@ -76,12 +76,10 @@ namespace PlaningPoker.Web.Controllers
             }
 
             var isSucceed = meeting.Join(userName);
-            if (!isSucceed)
+            if (isSucceed)
             {
-                return BadRequest("The user already exist!");
+                _groomingHubContext.AddParticipant_BroadcastGroup(meetingId, userName);
             }
-
-            _groomingHubContext.Clients.All.AddParticipant(userName, meetingId);
 
             return Ok();
         }
@@ -105,7 +103,7 @@ namespace PlaningPoker.Web.Controllers
                 return BadRequest("The user does not exist!");
             }
 
-            _groomingHubContext.Clients.All.SelectPoker(userName, meetingId, selectedPokerKey);
+            _groomingHubContext.SelectPoker_BroadcastGroup(meetingId,userName, selectedPokerKey);
 
             return Ok();
         }

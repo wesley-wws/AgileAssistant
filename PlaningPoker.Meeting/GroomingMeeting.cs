@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlaningPoker.MeetingManager
+namespace PlaningPoker.Meeting
 {
     public class GroomingMeeting
     {
@@ -71,7 +71,6 @@ namespace PlaningPoker.MeetingManager
         {
             return IsExpired(new TimeSpan(hours, 0, 0));
         }
-
 
         private void UpdateActiveDate()
         {

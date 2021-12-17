@@ -14,7 +14,6 @@ export default function MeetingLauncher(props: Props) {
 	const [topic, setTopic] = useState('');
 	const [userName, setUserName] = useState('');
 	let navigate = useNavigate();
-	useEffect(() => {}, []);
 	return (
 		<Stack
 			sx={{
@@ -58,7 +57,7 @@ export default function MeetingLauncher(props: Props) {
 						return;
 					}
 					await apiCenter.JoinMeeting(props.meetingId, userName);
-					navigate('/meetings/' + props.meetingId, {
+					navigate('/meetings/participant/' + props.meetingId, {
 						state: {
 							userName: userName,
 						},

@@ -1,10 +1,17 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using PlaningPoker.Hubs;
+using PlaningPoker.Meeting;
+using System;
+using System.Linq;
+using System.Text;
 
 namespace PlaningPoker.Web
 {
@@ -20,6 +27,10 @@ namespace PlaningPoker.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(configure =>
+            {
+                configure.AddConsole();
+            });
 
             services.AddControllersWithViews();
 
@@ -31,7 +42,24 @@ namespace PlaningPoker.Web
 
             services.AddSignalR();
 
-            services.AddMeetingManager();
+            services.AddMeetingManager(serviceProvider =>
+            {
+                var hubContext = serviceProvider.GetRequiredService<IHubContext<GroomingHub>>();
+                var logger = serviceProvider.GetRequiredService<ILogger<GroomingMeetingManager>>();
+                return new GroomingMeetingManagerOptions
+                {
+                    MaxMeetingIdleTime = new TimeSpan(2, 0, 0),
+                    MeetingClearInterval = new TimeSpan(1, 0, 0),
+                    OnMeetingClearedAsync = async (meetings) =>
+                    {
+                        await hubContext.Clients.All.SendAsync("clearMeeting", meetings);
+
+                        var message = new StringBuilder();
+                        meetings.ForEach(meeting => message.AppendLine($"{meeting.Id} - {meeting.Topic} - {meeting.LastActiveDate}"));
+                        logger.LogInformation(message.ToString());
+                    }
+                };
+            });
 
             services.AddSwaggerGen();
         }
@@ -41,7 +69,7 @@ namespace PlaningPoker.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage(); 
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }

@@ -32,6 +32,7 @@ export default function MeetingsViewer(props: Props) {
 					<TableRow>
 						<TableCell align="center">Id</TableCell>
 						<TableCell align="center">Topic</TableCell>
+						<TableCell align="center">LastActiveDate</TableCell>
 						<TableCell align="center"></TableCell>
 					</TableRow>
 				</TableHead>
@@ -42,6 +43,7 @@ export default function MeetingsViewer(props: Props) {
 								{meeting.id}
 							</TableCell>
 							<TableCell align="center">{meeting.topic}</TableCell>
+							<TableCell align="center">{meeting.lastActiveDate}</TableCell>
 							<TableCell align="center">
 								<Button variant="outlined" size="small" endIcon={<StopIcon />}>
 									STOP

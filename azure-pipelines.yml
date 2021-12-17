@@ -22,6 +22,13 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
+    
+    - task: Docker@2
+      displayName: Login to Docker Hub
+      inputs:
+        command: login
+        containerRegistry: 'WesleyDockerHub'
+
     - task: Docker@2
       displayName: Build and Push image
       inputs:

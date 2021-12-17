@@ -79,7 +79,7 @@ export default function MeetingHostPage() {
 						},
 					});
 				}
-				hubConnection.invoke('AddToGroup',meetingModel.id);
+				hubConnection.invoke('AddToGroup', meetingModel.id);
 				setMeeting(response.data);
 			});
 		});
@@ -94,8 +94,13 @@ export default function MeetingHostPage() {
 	return (
 		<>
 			{meeting && (
-				<Container maxWidth="xl">
-					<Stack mt={2} spacing={2}>
+				<Container
+					sx={{
+						paddingTop: 2,
+					}}
+					maxWidth="xl"
+				>
+					<Stack spacing={2}>
 						<Paper elevation={20}>
 							<Typography align="center" m={2} variant="h6">
 								{meeting.topic}

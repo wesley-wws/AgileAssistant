@@ -15,6 +15,9 @@ function getMeetingLink(meetingId: string): string {
 	return `${window.location.protocol}//${window.location.host}/launcher/${meetingId}`;
 }
 
+
+const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl('/groominghub').build();
+
 export default function MeetingHostPage() {
 	const params = useParams<keyof IParams>();
 	const navigate = useNavigate();
@@ -25,8 +28,8 @@ export default function MeetingHostPage() {
 	const [isShownAll, setIsShownAll] = useState<any>(false);
 
 	useEffect(() => {
-		const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl('/groominghub').build();
 
+		//const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl('/groominghub').build();
 		hubConnection.on('AddParticipant', (meetingId: string, userName: string) => {
 			setMeeting((preMeeting: any) => {
 				if (preMeeting == null || meetingId !== preMeeting.id) {
@@ -89,7 +92,6 @@ export default function MeetingHostPage() {
 		};
 	}, []);
 
-	useEffect(() => {}, [params.meetingId]);
 
 	return (
 		<>

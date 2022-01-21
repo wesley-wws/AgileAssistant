@@ -1,7 +1,6 @@
 interface IPoker {
 	key:string;
-	text:string;
-	image:string;
+	value:string;
 }
 
 export default IPoker;

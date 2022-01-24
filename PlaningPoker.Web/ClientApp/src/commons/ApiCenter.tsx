@@ -1,5 +1,4 @@
 import axios from 'axios';
-import PokerKeys from '../interfaces/PokerKeys';
 
 const apiCenter = {
 	GetMeetingsAsync: function () {
@@ -18,7 +17,7 @@ const apiCenter = {
 		return axios.post(`/api/groomingmeetings/${meetingId}/join/${userName}`,{});
 	},
 
-	updateSelectedPoker: function (meetingId: string, userName: string, selectedPokerKey: PokerKeys) {
+	updateSelectedPoker: function (meetingId: string, userName: string, selectedPokerKey: string) {
 		return axios.post(`/api/groomingmeetings/${meetingId}/participants/${userName}/${selectedPokerKey}`);
 	},
 };

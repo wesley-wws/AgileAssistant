@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Poker from './Poker';
+import PokerCardSvg from './PokerCardSvg';
 import Grid from '@mui/material/Grid';
 import PokerKeys from '../interfaces/PokerKeys';
 
@@ -14,10 +14,8 @@ interface PokerOption {
 	isSelected: boolean;
 }
 
-const pokerWidth = 160;
-const pokerHeight = 240;
-const selectedPokerWidth = 192;
-const selectedPokerHeight = 288;
+const pokerSize = 10;
+const selectedPokerSize = 12;
 
 const paddingVertical = 10;
 
@@ -38,7 +36,7 @@ function PokerSelector(props: Props) {
 		<Grid
 			sx={{
 				overflowX: 'scroll',
-				maxWidth:'100%'
+				maxWidth: '100%',
 			}}
 		>
 			<Stack
@@ -48,7 +46,7 @@ function PokerSelector(props: Props) {
 					minWidth: 'fit-content',
 					padding: `${paddingVertical}px ${paddingVertical * 2}px`,
 					alignItems: 'center',
-					minHeight: `${selectedPokerHeight + paddingVertical * 2}px`,
+					minHeight: `${selectedPokerSize * 16 + paddingVertical * 2}px`,
 				}}
 			>
 				{pokerOptions.map((pokerOption: PokerOption) => {
@@ -78,7 +76,7 @@ function PokerSelector(props: Props) {
 								props.onPokerSelected(pokerOption.pokerKey);
 							}}
 						>
-							<Poker pokerKey={pokerOption.pokerKey} isShown={true} width={pokerOption.isSelected ? selectedPokerWidth : pokerWidth} height={pokerOption.isSelected ? selectedPokerHeight : pokerHeight} />
+							<PokerCardSvg key={pokerOption.pokerKey} isShown={true} size={pokerOption.isSelected ? selectedPokerSize : pokerSize} />
 						</Box>
 					);
 				})}

@@ -4,6 +4,7 @@ import { Container, Stack, Paper, Typography, Button, Divider, Box } from '@mui/
 import QRCode from 'qrcode.react';
 import ParticipantsViewer from '../components/ParticipantsViewer';
 import IParticipant from '../interfaces/IParticipant';
+import IMeeting from '../interfaces/IMeeting';
 import apiCenter from '../commons/ApiCenter';
 import * as signalR from '@microsoft/signalr';
 
@@ -15,7 +16,6 @@ function getMeetingLink(meetingId: string): string {
 	return `${window.location.protocol}//${window.location.host}/launcher/${meetingId}`;
 }
 
-
 const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl('/groominghub').build();
 
 export default function MeetingHostPage() {
@@ -24,14 +24,13 @@ export default function MeetingHostPage() {
 
 	const meetingLink = params.meetingId === undefined ? '' : getMeetingLink(params.meetingId);
 
-	const [meeting, setMeeting] = useState<any>(null);
+	const [meeting, setMeeting] = useState<IMeeting | null>(null);
 	const [isShownAll, setIsShownAll] = useState<any>(false);
 
 	useEffect(() => {
-
 		//const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl('/groominghub').build();
 		hubConnection.on('AddParticipant', (meetingId: string, userName: string) => {
-			setMeeting((preMeeting: any) => {
+			setMeeting((preMeeting) => {
 				if (preMeeting == null || meetingId !== preMeeting.id) {
 					return preMeeting;
 				}
@@ -41,7 +40,6 @@ export default function MeetingHostPage() {
 				}
 				const participant: IParticipant = {
 					name: userName,
-					selectedPokerKey: null,
 					isShown: isShownAll,
 				};
 				const newMeeting = { ...preMeeting };
@@ -91,7 +89,6 @@ export default function MeetingHostPage() {
 			hubConnection.stop();
 		};
 	}, []);
-
 
 	return (
 		<>

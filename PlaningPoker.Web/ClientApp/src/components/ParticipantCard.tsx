@@ -2,7 +2,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import Poker from './Poker';
+import Poker from './PokerCardSvg';
 import IParticipant from '../interfaces/IParticipant';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
 export default function ParticipantCard(props: Props) {
 	return (
 		<Card elevation={3}>
-			<Poker pokerKey={props.participant.selectedPokerKey} isShown={props.participant.isShown} />
+			<Poker key={props.participant.selectedPokerKey} isShown={props.participant.isShown} />
 			<Divider />
 			<CardContent
 				sx={{

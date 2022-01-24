@@ -1,11 +1,23 @@
 import Box from '@mui/material/Box';
-import IPoker from '../interfaces/IPoker';
 import '@fontsource/varela-round';
 
 interface PokerCardProps {
 	value: number;
 	isShown: boolean;
 }
+
+const pokerStyle = {
+	size: 10,
+	get width() {
+		return this.size * 16 + 'px';
+	},
+	get height() {
+		return this.size * 24 + 'px';
+	},
+	get fontSizeCenter() {
+		return this.size * 6 + 'px';
+	},
+};
 
 export default function PokerCard(props: PokerCardProps) {
 	return (
@@ -14,8 +26,8 @@ export default function PokerCard(props: PokerCardProps) {
 				display: 'flex',
 				flexDirection: 'column',
 				justifyContent: 'space-between',
-				width: '160px',
-				height: '240px',
+				width: pokerStyle.width,
+				height: pokerStyle.height,
 				transition: 'transform 0.5s ease-in-out,width 0.3s, height 0.3s',
 				transform: () => (props.isShown ? 'rotateY(180deg) scaleX(-1)' : ''),
 				backgroundImage: () => (props.isShown ? `` : ``),
@@ -33,14 +45,14 @@ export default function PokerCard(props: PokerCardProps) {
 					alignItems: 'start',
 				}}
 			>
-				{props.value}
+				<span>{props.value}</span>
 			</Box>
 			<Box
 				sx={{
 					display: 'flex',
 					flexDirection: 'column',
 					alignItems: 'center',
-					fontSize: '80px',
+					fontSize: pokerStyle.fontSizeCenter,
 					lineHeight: '100%',
 					paddingBottom: '10px',
 				}}
@@ -56,7 +68,7 @@ export default function PokerCard(props: PokerCardProps) {
 					alignItems: 'end',
 				}}
 			>
-				{props.value}
+				<span>{props.value}</span>
 			</Box>
 		</Box>
 	);

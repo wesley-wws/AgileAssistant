@@ -1,4 +1,5 @@
-import IPoker from './IPoker';
+import IPokerCard from '../interfaces/IPokerCard';
+import PokerCardType from '../interfaces/PokerCardType';
 
 enum PredefinedPokerKeys {
 	One = '1',
@@ -13,17 +14,19 @@ enum PredefinedPokerKeys {
 	Coffee = 'coffee',
 }
 
-const predefinedPokers: IPoker[] = Object.keys(PredefinedPokerKeys).map((key) => {
+const predefinedPokers: IPokerCard[] = Object.keys(PredefinedPokerKeys).map((key) => {
 	return {
 		key: key,
-		value: key,
+		isShown: false,
+		pokerType: PokerCardType.Html,
 	};
 });
 
-const customPokers_default: IPoker[] = ['0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100', '?', 'coffee'].map((key) => {
+const customPokers_default: IPokerCard[] = ['0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100', '?', 'coffee'].map((key) => {
 	return {
 		key: key,
-		value: key,
+		isShown: false,
+		pokerType: PokerCardType.Svg,
 	};
 });
 

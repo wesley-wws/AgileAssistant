@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import IPokerCard from '../interfaces/IPokerCard'
+import IPokerCard from '../interfaces/IPokerCard';
 import { PredefinedPokerKeys } from '../commons/Constants';
 
 import Poker_1 from '../images/1.svg';
@@ -14,7 +14,7 @@ import Poker_100 from '../images/100.svg';
 import Poker_Cover from '../images/cover.svg';
 import Poker_Coffee from '../images/coffee.svg';
 
-function getPokerImage(key: string) {
+function getPokerImage(key: string | undefined) {
 	switch (key) {
 		case PredefinedPokerKeys.Coffee:
 			return Poker_Coffee;

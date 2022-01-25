@@ -1,8 +1,8 @@
-import PokerCardType from './PokerCardType';
+import PokerRenderType from './PokerRenderType';
 
 export default interface IPokerCard {
 	key: string;
 	isShown: boolean;
 	size?: number;
-	pokerType: PokerCardType;
+	renderType: PokerRenderType;
 }

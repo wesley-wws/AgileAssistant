@@ -1,14 +1,14 @@
 import PokerCardSvg from './PokerCardSvg';
 import PokerCardHtml from './PokerCardHtml';
 import IPokerCard from '../interfaces/IPokerCard';
-import PokerCardType from '../interfaces/PokerCardType';
+import PokerRenderType from '../interfaces/PokerRenderType';
 
 
 export default function PokerCard(props: IPokerCard) {
-	switch (props.pokerType) {
-		case PokerCardType.Html:
+	switch (props.renderType) {
+		case PokerRenderType.Html:
 			return <PokerCardHtml {...props} />;
-		case PokerCardType.Svg:
+		case PokerRenderType.Svg:
 			return <PokerCardSvg {...props} />;
         default:
             return <PokerCardHtml {...props} />;

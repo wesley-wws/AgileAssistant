@@ -10,6 +10,7 @@ namespace AgileAssistant.Web.Controllers
     public class ErrorController : Controller
     {
         [Route("/error")]
+        [HttpGet]
         public IActionResult Error() => Problem();
     }
 }

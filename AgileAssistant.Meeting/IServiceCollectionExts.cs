@@ -10,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class MyConfigServiceCollectionExtensions
     {
-        public static IServiceCollection AddMeetingManager(this IServiceCollection services, Func<IServiceProvider,GroomingMeetingManagerOptions> optionProvider )
+        public static IServiceCollection AddGroomingMeetingManager(this IServiceCollection services, Func<IServiceProvider,GroomingMeetingManagerOptions> optionProvider )
         {
             services.AddSingleton<GroomingMeetingManager, GroomingMeetingManager>(serviceProvider=>
             {

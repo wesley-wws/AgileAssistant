@@ -1,11 +1,11 @@
 import Box from '@mui/material/Box';
 import PokerCard from '../components/PokerCard';
-import PokerCardType from '../interfaces/PokerCardType';
+import PokerRenderType from '../interfaces/PokerRenderType';
 
 const poker = {
 	key: '100',
 	isShown: true,
-	pokerType: PokerCardType.Html,
+	renderType: PokerRenderType.Html,
 };
 
 export default function TestPage(props: any) {

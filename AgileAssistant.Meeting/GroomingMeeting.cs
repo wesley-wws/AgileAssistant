@@ -16,15 +16,18 @@ namespace AgileAssistant.Meeting
 
         public string Topic { get; private set; }
 
+        public PokerDeck PokerDeck { get; set; }
+
         public ICollection<GroomingParticipant> Participants => _participants.Values;
 
         public DateTime LastActiveDate { get; private set; } = DateTime.UtcNow;
 
 
-        public GroomingMeeting(string id,string topic)
+        public GroomingMeeting(string id, string topic, PokerDeck pokerDeck = null)
         {
             Id = id;
             Topic = topic;
+            PokerDeck = pokerDeck;
         }
 
         public bool Join(string name)
@@ -39,10 +42,10 @@ namespace AgileAssistant.Meeting
             return _participants.TryRemove(name, out _);
         }
 
-        public bool UpdateParticipantPoker(string name,string selectedPokerKey)
+        public bool UpdateParticipantPoker(string name, string selectedPokerKey)
         {
             UpdateActiveDate();
-            if (_participants.TryGetValue(name,out GroomingParticipant participant))
+            if (_participants.TryGetValue(name, out GroomingParticipant participant))
             {
                 participant.SelectedPokerKey = selectedPokerKey;
                 return true;

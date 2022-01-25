@@ -49,16 +49,9 @@ namespace AgileAssistant.Web.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult AddGroomingMeeting([FromBody] AddGroomingMeeting parameter)
+        public ActionResult AddGroomingMeeting([FromBody] AddGroomingMeetingVM parameter)
         {
-            string meetingId = Guid.NewGuid().ToString();
-            var isSucceed = _meetingManager.Add(new GroomingMeeting(meetingId, parameter.Topic));
-            if (!isSucceed)
-            {
-                return BadRequest("Meeting exists!");
-            }
-
-            var meeting = _meetingManager.Get(meetingId);
+            var meeting = _meetingManager.StartOne(parameter.Topic);
             return Ok(meeting);
         }
 
@@ -67,7 +60,7 @@ namespace AgileAssistant.Web.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult AddParticipant(string meetingId,string userName)
+        public ActionResult AddParticipant(string meetingId, string userName)
         {
             var meeting = _meetingManager.Get(meetingId);
             if (meeting == null)
@@ -84,12 +77,31 @@ namespace AgileAssistant.Web.Controllers
             return Ok();
         }
 
+        [HttpPost("{meetingId}/[action]")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult SetPokerDeck(string meetingId, PokerDeckVM pokerDeck)
+        {
+            var meeting = _meetingManager.Get(meetingId);
+            if (meeting == null)
+            {
+                return BadRequest("The meeting does not exist!");
+            }
+
+            meeting.PokerDeck = new PokerDeck(pokerDeck.Key,pokerDeck.Pokers.Select(p=>new Poker(p.Value)))
+            {
+                 Description = pokerDeck.Description,
+            };
+            return Ok();
+        }
+
         [HttpPost("{meetingId}/participants/{userName}/{selectedPokerKey}")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult UpdateSelectedPoker(string meetingId, string userName,string selectedPokerKey)
+        public ActionResult UpdateSelectedPoker(string meetingId, string userName, string selectedPokerKey)
         {
             var meeting = _meetingManager.Get(meetingId);
             if (meeting == null)
@@ -103,7 +115,7 @@ namespace AgileAssistant.Web.Controllers
                 return BadRequest("The user does not exist!");
             }
 
-            _groomingHubContext.SelectPoker_BroadcastGroup(meetingId,userName, selectedPokerKey);
+            _groomingHubContext.SelectPoker_BroadcastGroup(meetingId, userName, selectedPokerKey);
 
             return Ok();
         }

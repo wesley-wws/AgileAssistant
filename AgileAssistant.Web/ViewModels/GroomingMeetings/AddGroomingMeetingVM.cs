@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace AgileAssistant.Web.ViewModels.GroomingMeetings
 {
-    public record AddParticipant
+    public record AddGroomingMeetingVM
     {
         [Required]
-        public string MeetingId { get; init; }
-
-        [Required]
-        public string UserName { get; init; }
+        public string Topic { get; init; }
     }
 }

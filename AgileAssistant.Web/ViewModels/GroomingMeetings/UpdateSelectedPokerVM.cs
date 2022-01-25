@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AgileAssistant.Web.ViewModels.GroomingMeetings
 {
-    public class UpdateSelectedPoker
+    public class UpdateSelectedPokerVM
     {
         [Required]
         public string MeetingId { get; init; }

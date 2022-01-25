@@ -1,5 +1,5 @@
 import IPokerCard from '../interfaces/IPokerCard';
-import PokerCardType from '../interfaces/PokerCardType';
+import PokerRenderType from '../interfaces/PokerRenderType';
 
 enum PredefinedPokerKeys {
 	One = '1',
@@ -18,7 +18,7 @@ const predefinedSvgPokers: IPokerCard[] = Object.keys(PredefinedPokerKeys).map((
 	return {
 		key: key,
 		isShown: false,
-		pokerType: PokerCardType.Html,
+		renderType: PokerRenderType.Html,
 	};
 });
 
@@ -26,7 +26,7 @@ const predefinedHtmlPokers: IPokerCard[] = ['0.5', '1', '2', '3', '5', '8', '13'
 	return {
 		key: key,
 		isShown: false,
-		pokerType: PokerCardType.Svg,
+		renderType: PokerRenderType.Svg,
 	};
 });
 

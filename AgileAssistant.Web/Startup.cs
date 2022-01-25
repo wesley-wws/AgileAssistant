@@ -41,7 +41,7 @@ namespace AgileAssistant.Web
 
             services.AddSignalR();
 
-            services.AddMeetingManager(serviceProvider =>
+            services.AddGroomingMeetingManager(serviceProvider =>
             {
                 var hubContext = serviceProvider.GetRequiredService<IHubContext<GroomingHub>>();
                 var logger = serviceProvider.GetRequiredService<ILogger<GroomingMeetingManager>>();

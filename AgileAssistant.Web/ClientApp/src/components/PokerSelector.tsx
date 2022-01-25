@@ -72,7 +72,7 @@ function PokerSelector(props: Props) {
 								props.onPokerSelected(candidate.key);
 							}}
 						>
-							<PokerCard key={candidate.key} isShown={candidate.isShown} pokerType={candidate.pokerType} size={candidate.isSelected ? selectedPokerSize : pokerSize} />
+							<PokerCard key={candidate.key} isShown={candidate.isShown} renderType={candidate.renderType} size={candidate.isSelected ? selectedPokerSize : pokerSize} />
 						</Box>
 					);
 				})}

@@ -5,12 +5,12 @@ import Divider from '@mui/material/Divider';
 import PokerCard from './PokerCard';
 import IParticipant from '../interfaces/IParticipant';
 
-import PokerCardType from '../interfaces/PokerCardType';
+import PokerRenderType from '../interfaces/PokerRenderType';
 
 export default function ParticipantCard(props: IParticipant) {
 	return (
 		<Card elevation={3}>
-			{props.selectedPokerKey && <PokerCard pokerType={PokerCardType.Svg} key={props.selectedPokerKey} isShown={props.isShown} />}
+			{props.selectedPokerKey && <PokerCard renderType={PokerRenderType.Svg} key={props.selectedPokerKey} isShown={props.isShown} />}
 			<Divider />
 			<CardContent
 				sx={{

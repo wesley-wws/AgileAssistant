@@ -45,6 +45,21 @@ namespace AgileAssistant.Meeting
             return null;
         }
 
+        public GroomingMeeting StartOne(string topic, PokerDeck pokerDeck = null)
+        {
+            var retryCount = 5;
+            for (int i = 0; i < retryCount; i++)
+            {
+                var meetingId = Guid.NewGuid().ToString();
+                var meeting = new GroomingMeeting(meetingId, topic, pokerDeck);
+                if(_id_meeting_mapping.TryAdd(meeting.Id, meeting))
+                {
+                    return meeting;
+                }
+            }
+            return null;
+        }
+
         public bool Add(GroomingMeeting meeting)
         {
             return _id_meeting_mapping.TryAdd(meeting.Id, meeting);

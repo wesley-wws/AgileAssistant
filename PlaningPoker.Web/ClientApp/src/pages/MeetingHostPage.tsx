@@ -41,6 +41,7 @@ export default function MeetingHostPage() {
 				const participant: IParticipant = {
 					name: userName,
 					isShown: isShownAll,
+					selectedPokerKey: null,
 				};
 				const newMeeting = { ...preMeeting };
 				newMeeting.participants = [...newMeeting.participants, participant];

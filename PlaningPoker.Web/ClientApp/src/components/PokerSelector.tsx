@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import PokerCardSvg from './PokerCardSvg';
 import Grid from '@mui/material/Grid';
-import PokerKeys from '../interfaces/PokerKeys';
+import PokerCard from './PokerCard';
+import IPokerCard from '../interfaces/IPokerCard';
+import { predefinedSvgPokers } from '../commons/Constants';
 
 interface Props {
-	onPokerSelected(pokerKey: PokerKeys): void;
+	onPokerSelected(pokerKey: string): void;
 }
 
-interface PokerOption {
-	pokerKey: PokerKeys;
+interface IPokerSelectorCandidate extends IPokerCard {
 	isSelected: boolean;
 }
 
@@ -20,17 +20,13 @@ const selectedPokerSize = 12;
 const paddingVertical = 10;
 
 function PokerSelector(props: Props) {
-	const [selectedPokerKey, setSelectedPoker] = useState<PokerKeys | null>(null);
+	const [selectedPokerKey, setSelectedPoker] = useState<string | null>(null);
 
-	const defaultPokerOptions = Object.keys(PokerKeys).map((key: string): PokerOption => {
-		var pokerKey: PokerKeys = PokerKeys[key as keyof typeof PokerKeys];
-		return {
-			pokerKey: pokerKey,
-			isSelected: false,
-		};
+	const defaultPokerCandidates = predefinedSvgPokers.map((poker: IPokerCard): IPokerSelectorCandidate => {
+		return { ...poker, isSelected: false };
 	});
 
-	const [pokerOptions, setPokerOptions] = useState<Array<PokerOption>>(defaultPokerOptions);
+	const [pokerCandidates, setPokerCandidates] = useState<Array<IPokerSelectorCandidate>>(defaultPokerCandidates);
 
 	return (
 		<Grid
@@ -49,34 +45,34 @@ function PokerSelector(props: Props) {
 					minHeight: `${selectedPokerSize * 16 + paddingVertical * 2}px`,
 				}}
 			>
-				{pokerOptions.map((pokerOption: PokerOption) => {
+				{pokerCandidates.map((candidate: IPokerSelectorCandidate) => {
 					return (
 						<Box
-							key={pokerOption.pokerKey}
+							key={candidate.key}
 							sx={{
-								boxShadow: () => (pokerOption.pokerKey === selectedPokerKey ? 24 : 'none'),
+								boxShadow: () => (candidate.key === selectedPokerKey ? 24 : 'none'),
 							}}
 							onClick={(event: any) => {
-								setSelectedPoker(pokerOption.pokerKey);
+								setSelectedPoker(candidate.key);
 
-								const newPokerOptions = [...pokerOptions];
+								const newPokerOptions = [...pokerCandidates];
 
 								const selectedIndex = newPokerOptions.findIndex((o) => o.isSelected);
 								const selectedPokerOption = { ...newPokerOptions[selectedIndex] };
 								selectedPokerOption.isSelected = false;
 								newPokerOptions[selectedIndex] = selectedPokerOption;
 
-								const index = newPokerOptions.findIndex((o) => o.pokerKey === pokerOption.pokerKey);
+								const index = newPokerOptions.findIndex((o) => o.key === candidate.key);
 								const newPokerOption = { ...newPokerOptions[index] };
 								newPokerOption.isSelected = true;
 								newPokerOptions[index] = newPokerOption;
 
-								setPokerOptions(newPokerOptions);
+								setPokerCandidates(newPokerOptions);
 
-								props.onPokerSelected(pokerOption.pokerKey);
+								props.onPokerSelected(candidate.key);
 							}}
 						>
-							<PokerCardSvg key={pokerOption.pokerKey} isShown={true} size={pokerOption.isSelected ? selectedPokerSize : pokerSize} />
+							<PokerCard key={candidate.key} isShown={candidate.isShown} pokerType={candidate.pokerType} size={candidate.isSelected ? selectedPokerSize : pokerSize} />
 						</Box>
 					);
 				})}

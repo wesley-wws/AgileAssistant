@@ -8,16 +8,14 @@ interface Props {
 }
 
 export default function ParticipantsViewer(props: Props) {
-    if(props.participants.length===0){
-        return(
-            <Box p={3}>Waiting...</Box>
-        )
-    }
+	if (props.participants.length === 0) {
+		return <Box p={3}>Waiting...</Box>;
+	}
 	return (
 		<Grid container justifyContent="center" sx={{ minHeight: '100%', width: '100%' }}>
 			{props.participants.map((p: IParticipant) => (
 				<Grid key={p.name} item p={1}>
-					<ParticipantCard participant={p} />
+					<ParticipantCard {...p} />
 				</Grid>
 			))}
 		</Grid>

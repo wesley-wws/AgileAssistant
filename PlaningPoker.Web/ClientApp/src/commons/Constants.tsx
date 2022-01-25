@@ -14,7 +14,7 @@ enum PredefinedPokerKeys {
 	Coffee = 'coffee',
 }
 
-const predefinedPokers: IPokerCard[] = Object.keys(PredefinedPokerKeys).map((key) => {
+const predefinedSvgPokers: IPokerCard[] = Object.keys(PredefinedPokerKeys).map((key) => {
 	return {
 		key: key,
 		isShown: false,
@@ -22,7 +22,7 @@ const predefinedPokers: IPokerCard[] = Object.keys(PredefinedPokerKeys).map((key
 	};
 });
 
-const customPokers_default: IPokerCard[] = ['0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100', '?', 'coffee'].map((key) => {
+const predefinedHtmlPokers: IPokerCard[] = ['0.5', '1', '2', '3', '5', '8', '13', '20', '40', '100', '?', 'coffee'].map((key) => {
 	return {
 		key: key,
 		isShown: false,
@@ -30,4 +30,4 @@ const customPokers_default: IPokerCard[] = ['0.5', '1', '2', '3', '5', '8', '13'
 	};
 });
 
-export { PredefinedPokerKeys, predefinedPokers, customPokers_default };
+export { PredefinedPokerKeys, predefinedSvgPokers, predefinedHtmlPokers };

@@ -14,7 +14,7 @@ import Poker_100 from '../images/100.svg';
 import Poker_Cover from '../images/cover.svg';
 import Poker_Coffee from '../images/coffee.svg';
 
-function getPokerImage(key: string | undefined) {
+function getPokerImage(key: string | null) {
 	switch (key) {
 		case PredefinedPokerKeys.Coffee:
 			return Poker_Coffee;

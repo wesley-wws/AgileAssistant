@@ -1,5 +1,5 @@
 export default interface IParticipant {
 	name: string;
-	selectedPokerKey?: string;
+	selectedPokerKey: string | null;
 	isShown: boolean;
 }

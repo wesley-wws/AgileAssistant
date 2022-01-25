@@ -7,14 +7,10 @@ import IParticipant from '../interfaces/IParticipant';
 
 import PokerCardType from '../interfaces/PokerCardType';
 
-interface Props {
-	participant: IParticipant;
-}
-
-export default function ParticipantCard(props: Props) {
+export default function ParticipantCard(props: IParticipant) {
 	return (
 		<Card elevation={3}>
-			<PokerCard pokerType={PokerCardType.Svg} key={props.participant.selectedPokerKey} isShown={props.participant.isShown} />
+			{props.selectedPokerKey && <PokerCard pokerType={PokerCardType.Svg} key={props.selectedPokerKey} isShown={props.isShown} />}
 			<Divider />
 			<CardContent
 				sx={{
@@ -23,7 +19,7 @@ export default function ParticipantCard(props: Props) {
 					},
 				}}
 			>
-				<Typography align="center">{props.participant.name}</Typography>
+				<Typography align="center">{props.name}</Typography>
 			</CardContent>
 		</Card>
 	);

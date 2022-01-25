@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json.Linq;
-using PlaningPoker.Hubs;
-using PlaningPoker.Meeting;
-using PlaningPoker.Web.ViewModels.GroomingMeetings;
+using AgileAssistant.Hubs;
+using AgileAssistant.Meeting;
+using AgileAssistant.Web.ViewModels.GroomingMeetings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
-namespace PlaningPoker.Web.Controllers
+namespace AgileAssistant.Web.Controllers
 {
     [Route("api/GroomingMeetings")]
     [ApiController]

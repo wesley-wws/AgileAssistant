@@ -6,13 +6,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using PlaningPoker.Hubs;
-using PlaningPoker.Meeting;
+using AgileAssistant.Hubs;
+using AgileAssistant.Meeting;
 using System;
 using System.Linq;
 using System.Text;
 
-namespace PlaningPoker.Web
+namespace AgileAssistant.Web
 {
     public class Startup
     {
@@ -100,7 +100,7 @@ namespace PlaningPoker.Web
                 }
             });
 
-            app.UsePlaningPokerHubs();
+            app.UseAgileAssistantHubs();
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlaningPoker.Meeting
+namespace AgileAssistant.Meeting
 {
     public class GroomingMeetingManagerOptions
     {

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using PlaningPoker.Hubs.Models;
+using AgileAssistant.Hubs.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlaningPoker.Hubs
+namespace AgileAssistant.Hubs
 {
     public class GroomingHub : Hub<IGroomingHubClient>
     {

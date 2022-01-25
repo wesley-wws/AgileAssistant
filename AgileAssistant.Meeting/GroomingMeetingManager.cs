@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace PlaningPoker.Meeting
+namespace AgileAssistant.Meeting
 {
     public class GroomingMeetingManager : IDisposable
     {

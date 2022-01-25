@@ -1,3 +1,3 @@
-sudo docker build -t planingpoker -f ./PlaningPoker.Web/Dockerfile .
+sudo docker build -t AgileAssistant -f ./AgileAssistant.Web/Dockerfile .
 sudo docker images
-sudo docker run -d -p 5000:80 planingpoker
+sudo docker run -d -p 5000:80 AgileAssistant

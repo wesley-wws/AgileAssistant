@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PlaningPoker.Hubs.Models
+namespace AgileAssistant.Hubs.Models
 {
     public record Participant
     {

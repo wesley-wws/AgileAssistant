@@ -32,8 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PlaningPoker.Hubs\PlaningPoker.Hubs.csproj" />
-    <ProjectReference Include="..\PlaningPoker.Meeting\PlaningPoker.Meeting.csproj" />
+    <ProjectReference Include="..\AgileAssistant.Hubs\AgileAssistant.Hubs.csproj" />
+    <ProjectReference Include="..\AgileAssistant.Meeting\AgileAssistant.Meeting.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

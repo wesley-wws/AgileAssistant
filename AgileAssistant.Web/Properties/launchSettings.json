@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "PlaningPoker.Web": {
+    "AgileAssistant.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

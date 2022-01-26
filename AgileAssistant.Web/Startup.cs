@@ -11,17 +11,22 @@ using AgileAssistant.Meeting;
 using System;
 using System.Linq;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace AgileAssistant.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public IWebHostEnvironment HostingEnvironment { get; }
 
         public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        {
+            Configuration = configuration;
+            HostingEnvironment = hostingEnvironment;
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -61,6 +66,11 @@ namespace AgileAssistant.Web
             });
 
             services.AddSwaggerGen();
+
+            services.AddDbContext<DataAccessLayer.AgileAssistantDBContext>(options =>
+            {
+                options.UseSqlite("Data Source = " + System.IO.Path.Combine(HostingEnvironment.ContentRootPath, "AgileAssistant.sqlite3"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,6 +111,38 @@ namespace AgileAssistant.Web
             });
 
             app.UseAgileAssistantHubs();
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<DataAccessLayer.AgileAssistantDBContext>();
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                context.PokerDecks.Add(new DataAccessLayer.Entities.PokerDeck
+                {
+                    Description = "Default",
+                    Pokers = new List<DataAccessLayer.Entities.Poker>
+                    {
+                         new DataAccessLayer.Entities.Poker
+                         {
+                             Value = "1",
+                         }
+                    }
+                });
+                context.PokerDecks.Add(new DataAccessLayer.Entities.PokerDeck
+                {
+                    Description = "Custom-1",
+                    Pokers = new List<DataAccessLayer.Entities.Poker>
+                    {
+                         new DataAccessLayer.Entities.Poker
+                         {
+                             Value = "1/2",
+                         }
+                    }
+                });
+
+                context.SaveChanges();
+            }
         }
     }
 }

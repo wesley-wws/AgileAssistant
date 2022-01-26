@@ -32,8 +32,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AgileAssistant.DataAccessLayer\AgileAssistant.DataAccessLayer.csproj" />
     <ProjectReference Include="..\AgileAssistant.Hubs\AgileAssistant.Hubs.csproj" />
     <ProjectReference Include="..\AgileAssistant.Meeting\AgileAssistant.Meeting.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="AgileAssistant.sqlite3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

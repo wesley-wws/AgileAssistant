@@ -43,7 +43,7 @@ export default function PokerCardHtml(props: IPokerCard) {
 					alignItems: 'start',
 				}}
 			>
-				<span>{props.key}</span>
+				<span>{props.value}</span>
 			</Box>
 			<Box
 				sx={{
@@ -55,7 +55,7 @@ export default function PokerCardHtml(props: IPokerCard) {
 					paddingBottom: '10px',
 				}}
 			>
-				<span>{props.key}</span>
+				<span>{props.value}</span>
 			</Box>
 			<Box
 				sx={{
@@ -66,7 +66,7 @@ export default function PokerCardHtml(props: IPokerCard) {
 					alignItems: 'end',
 				}}
 			>
-				<span>{props.key}</span>
+				<span>{props.value}</span>
 			</Box>
 		</Box>
 	);

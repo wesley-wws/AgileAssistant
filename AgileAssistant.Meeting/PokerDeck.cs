@@ -11,17 +11,20 @@ namespace AgileAssistant.Meeting
     {
         private readonly List<Poker> _pokers;
 
-        public string Key { get; init; }
+
+        public Guid Key { get; init; }
 
         public string Description { get; set; }
 
         public IReadOnlyCollection<Poker> Pokers => _pokers.AsReadOnly();
 
-        public PokerDeck(string key, IEnumerable<Poker> pokers = null)
+
+        public PokerDeck(Guid key, IEnumerable<Poker> pokers = null)
         {
             Key = key;
             _pokers = pokers?.ToList() ?? new List<Poker>();
         }
+
 
         public void Add(Poker poker)
         {

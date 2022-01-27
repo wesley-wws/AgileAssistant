@@ -5,6 +5,7 @@ import ParticipantCard from './ParticipantCard';
 
 interface Props {
 	participants: Array<IParticipant>;
+	pokerDeck: any;
 }
 
 export default function ParticipantsViewer(props: Props) {
@@ -15,7 +16,7 @@ export default function ParticipantsViewer(props: Props) {
 		<Grid container justifyContent="center" sx={{ minHeight: '100%', width: '100%' }}>
 			{props.participants.map((p: IParticipant) => (
 				<Grid key={p.name} item p={1}>
-					<ParticipantCard {...p} />
+					<ParticipantCard {...p} pokerDeck={props.pokerDeck} />
 				</Grid>
 			))}
 		</Grid>

@@ -69,7 +69,7 @@ namespace AgileAssistant.Web
 
             services.AddDbContext<DataAccessLayer.AgileAssistantDBContext>(options =>
             {
-                options.UseSqlite("Data Source = " + System.IO.Path.Combine(HostingEnvironment.ContentRootPath, "AgileAssistant.sqlite3"));
+                options.UseSqlite("Data Source = " + System.IO.Path.Combine(HostingEnvironment.ContentRootPath, @"AgileAssistant.sqlite3"));
             });
         }
 
@@ -120,13 +120,65 @@ namespace AgileAssistant.Web
 
                 context.PokerDecks.Add(new DataAccessLayer.Entities.PokerDeck
                 {
-                    Description = "Default",
+                    Description = "Predefined-1",
                     Pokers = new List<DataAccessLayer.Entities.Poker>
                     {
-                         new DataAccessLayer.Entities.Poker
-                         {
-                             Value = "1",
-                         }
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "1",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "2",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "3",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "5",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "8",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "13",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "20",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "40",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "100",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "coffee",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "infinite",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "cover",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "brownie",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "dragons",
+                        }
                     }
                 });
                 context.PokerDecks.Add(new DataAccessLayer.Entities.PokerDeck
@@ -137,7 +189,55 @@ namespace AgileAssistant.Web
                          new DataAccessLayer.Entities.Poker
                          {
                              Value = "1/2",
-                         }
+                         },
+                         new DataAccessLayer.Entities.Poker
+                         {
+                            Value = "1",
+                         },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "2",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "3",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "5",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "8",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "13",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "20",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "40",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "100",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "coffee",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "¡Þ",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "?",
+                        }
                     }
                 });
 

@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
 import IPokerCard from '../interfaces/IPokerCard';
-import { PredefinedPokerKeys } from '../commons/Constants';
 
 import Poker_1 from '../images/1.svg';
 import Poker_2 from '../images/2.svg';
@@ -13,6 +12,19 @@ import Poker_40 from '../images/40.svg';
 import Poker_100 from '../images/100.svg';
 import Poker_Cover from '../images/cover.svg';
 import Poker_Coffee from '../images/coffee.svg';
+
+enum PredefinedPokerKeys {
+	One = '1',
+	Two = '2',
+	Three = '3',
+	Five = '5',
+	Eight = '8',
+	Thirteen = '13',
+	Twenty = '20',
+	Fourty = '40',
+	OneHundred = '100',
+	Coffee = 'coffee',
+}
 
 function getPokerImage(key: string | null) {
 	switch (key) {
@@ -65,7 +77,7 @@ export default function PokerCardSvg(props: IPokerCard) {
 				transition: 'transform 0.5s ease-in-out,width 0.3s, height 0.3s',
 				transform: () => (props.isShown ? 'rotateY(180deg) scaleX(-1)' : ''),
 				backgroundSize: 'cover',
-				backgroundImage: () => (props.isShown ? `url(${getPokerImage(props.key)})` : `url(${Poker_Cover})`),
+				backgroundImage: () => (props.isShown ? `url(${getPokerImage(props.value)})` : `url(${Poker_Cover})`),
 			}}
 		></Box>
 	);

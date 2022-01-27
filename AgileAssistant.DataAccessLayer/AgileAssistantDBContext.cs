@@ -12,8 +12,6 @@ namespace AgileAssistant.DataAccessLayer
 
         public DbSet<PokerDeck> PokerDecks { get; set; }
 
-        public string DbPath { get; }
-
         public AgileAssistantDBContext(DbContextOptions options) : base(options)
         {
 

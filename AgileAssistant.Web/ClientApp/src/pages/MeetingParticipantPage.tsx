@@ -41,6 +41,7 @@ export default function MeetingParticipantPage(props: any) {
 				</Paper>
 				<Divider />
 				<PokerSelector
+					pokerDeck={meeting.pokerDeck}
 					onPokerSelected={(pokerKey) => {
 						selectedPokerKey = pokerKey;
 					}}

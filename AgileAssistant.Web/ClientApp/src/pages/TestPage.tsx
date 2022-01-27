@@ -3,11 +3,11 @@ import PokerCard from '../components/PokerCard';
 import PokerRenderType from '../interfaces/PokerRenderType';
 
 const poker = {
-	key: '100',
+	value: '100',
 	isShown: true,
 	renderType: PokerRenderType.Html,
 };
 
 export default function TestPage(props: any) {
-	return <PokerCard {...poker}></PokerCard>;
+	return <PokerCard pokerDeck={[]} {...poker}></PokerCard>;
 }

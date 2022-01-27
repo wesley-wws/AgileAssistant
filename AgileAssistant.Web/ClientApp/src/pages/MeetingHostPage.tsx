@@ -126,7 +126,7 @@ export default function MeetingHostPage() {
 						>
 							Open/Hide
 						</Button>
-						<ParticipantsViewer participants={meeting.participants} />
+						<ParticipantsViewer participants={meeting.participants} pokerDeck={meeting.pokerDeck} />
 						<Button
 							sx={{
 								marginTop: '20px',

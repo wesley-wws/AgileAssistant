@@ -12,6 +12,7 @@ namespace AgileAssistant.Meeting
     {
         private readonly ConcurrentDictionary<string, GroomingParticipant> _participants = new();
 
+
         public string Id { get; init; }
 
         public string Topic { get; private set; }

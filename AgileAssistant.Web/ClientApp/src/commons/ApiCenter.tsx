@@ -1,4 +1,5 @@
 import axios from 'axios';
+import IPokerDeck from '../contracts/IPokerDeck';
 
 const apiCenter = {
 	GetMeetingsAsync: function () {
@@ -22,7 +23,7 @@ const apiCenter = {
 	},
 
 	GetPokerDecks: function () {
-		return axios.get('/api/pokerdecks');
+		return axios.get<IPokerDeck[]>('/api/pokerdecks');
 	},
 };
 

@@ -1,6 +1,12 @@
 import Box from '@mui/material/Box';
-import IPokerCard from '../interfaces/IPokerCard'
 import '@fontsource/varela-round';
+
+interface IPokerCard {
+	value: string;
+	isShown: boolean;
+	size?: number;
+	pokerDeck: any;
+}
 
 const pokerStyle = {
 	size: 10,

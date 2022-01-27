@@ -1,14 +1,14 @@
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import IParticipant from '../interfaces/IParticipant';
+import { Grid, Box } from '@mui/material';
 import ParticipantCard from './ParticipantCard';
+import IParticipant from '../contracts/IParticipant';
+import IPokerDeck from '../contracts/IPokerDeck';
 
-interface Props {
+interface IParticipantsViewer {
 	participants: Array<IParticipant>;
-	pokerDeck: any;
+	pokerDeck: IPokerDeck;
 }
 
-export default function ParticipantsViewer(props: Props) {
+export default function ParticipantsViewer(props: IParticipantsViewer) {
 	if (props.participants.length === 0) {
 		return <Box p={3}>Waiting...</Box>;
 	}

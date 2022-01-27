@@ -1,8 +1,15 @@
 import PokerCardSvg from './PokerCardSvg';
 import PokerCardHtml from './PokerCardHtml';
-import IPokerCard from '../interfaces/IPokerCard';
+import IPokerDeck from '../contracts/IPokerDeck';
+import IPoker from '../contracts/IPoker';
 
-export default function PokerCard(props: IPokerCard) {
+interface IPokerCard extends IPoker {
+	isShown: boolean;
+	size?: number;
+	pokerDeck: IPokerDeck;
+}
+
+const PokerCard = function PokerCard(props: IPokerCard) {
 	if (props.pokerDeck.description === 'Predefined-1') {
 		return <PokerCardSvg {...props} />;
 	}
@@ -12,4 +19,7 @@ export default function PokerCard(props: IPokerCard) {
 	}
 
 	return <PokerCardHtml {...props} />;
-}
+};
+
+export { PokerCard as default };
+export type { IPokerCard };

@@ -2,8 +2,7 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
-import PokerCard from './PokerCard';
-import IPokerCard from '../interfaces/IPokerCard';
+import PokerCard, { IPokerCard } from './PokerCard';
 
 interface Props {
 	pokerDeck: any;

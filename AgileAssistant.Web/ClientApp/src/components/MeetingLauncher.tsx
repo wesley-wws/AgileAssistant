@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+
+import { NavigateFunction, useNavigate } from 'react-router-dom';
+
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -6,10 +9,11 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
 import apiCenter from '../commons/ApiCenter';
+
+import IPokerDeck from '../contracts/IPokerDeck';
 
 interface Props {
 	meetingId?: string;
@@ -18,8 +22,8 @@ interface Props {
 function HostLauncher(navigate: NavigateFunction) {
 	const { enqueueSnackbar } = useSnackbar();
 	const [topic, setTopic] = useState('');
-	const [decks, setDecks] = useState<any[]>([]);
-	const [selectedDeck, setSelectedDeck] = useState<string>('');
+	const [decks, setDecks] = useState<IPokerDeck[]>([]);
+	const [selectedDeckKey, setSelectedDeckKey] = useState<string | null>(null);
 
 	useEffect(() => {
 		apiCenter.GetPokerDecks().then((response) => {
@@ -44,7 +48,7 @@ function HostLauncher(navigate: NavigateFunction) {
 				<Select
 					labelId="select-pokerdeck"
 					onChange={(e: SelectChangeEvent) => {
-						setSelectedDeck(e.target.value as string);
+						setSelectedDeckKey(e.target.value as string);
 					}}
 				>
 					{decks.map((d: any) => {
@@ -60,14 +64,14 @@ function HostLauncher(navigate: NavigateFunction) {
 			<Button
 				variant="contained"
 				onClick={async (e) => {
-					if (topic === '' || selectedDeck === '') {
-						enqueueSnackbar('Please fill the form.',{ 
+					if (topic === '' || selectedDeckKey === null) {
+						enqueueSnackbar('Please fill the form.', {
 							variant: 'error',
 							preventDuplicate: true,
 						});
 						return;
 					}
-					const response = await apiCenter.AddMeetingAsync(topic,selectedDeck);
+					const response = await apiCenter.AddMeetingAsync(topic, selectedDeckKey);
 					navigate('/meetings/host/' + response.data.id);
 				}}
 			>

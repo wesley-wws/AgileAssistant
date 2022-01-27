@@ -1,16 +1,13 @@
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
+import { Card, CardContent, Typography, Divider } from '@mui/material';
 import PokerCard from './PokerCard';
-import IParticipant from '../interfaces/IParticipant';
+import IParticipant from '../contracts/IParticipant';
+import IPokerDeck from '../contracts/IPokerDeck';
 
-
-interface IProp extends IParticipant {
-	pokerDeck: any;
+interface IParticipantCard extends IParticipant {
+	pokerDeck: IPokerDeck;
 }
 
-export default function ParticipantCard(props: IProp) {
+export default function ParticipantCard(props: IParticipantCard) {
 	return (
 		<Card elevation={3}>
 			{props.selectedPokerKey && <PokerCard value={props.selectedPokerKey} isShown={props.isShown} pokerDeck={props.pokerDeck} />}

@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import IPokerCard from '../interfaces/IPokerCard';
 
 import Poker_1 from '../images/1.svg';
 import Poker_2 from '../images/2.svg';
@@ -51,6 +50,13 @@ function getPokerImage(key: string | null) {
 		default:
 			return Poker_Cover;
 	}
+}
+
+interface IPokerCard {
+	value: string;
+	isShown: boolean;
+	size?: number;
+	pokerDeck: any;
 }
 
 const pokerStyle = {

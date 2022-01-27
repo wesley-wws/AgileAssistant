@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Stack, Paper, Typography, Button, Divider, Box } from '@mui/material';
 import QRCode from 'qrcode.react';
-import ParticipantsViewer from '../components/ParticipantsViewer';
-import IParticipant from '../interfaces/IParticipant';
-import IMeeting from '../interfaces/IMeeting';
-import apiCenter from '../commons/ApiCenter';
 import * as signalR from '@microsoft/signalr';
+import ParticipantsViewer from '../components/ParticipantsViewer';
+import apiCenter from '../commons/ApiCenter';
+import IParticipant from '../contracts/IParticipant';
+import IMeeting from '../contracts/IMeeting';
 
 interface IParams {
 	meetingId: string;

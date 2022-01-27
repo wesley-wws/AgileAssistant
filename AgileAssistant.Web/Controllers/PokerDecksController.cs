@@ -28,10 +28,7 @@ namespace AgileAssistant.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IEnumerable<PokerDeck> GetPokerDecks()
         {
-            return _dbContext.PokerDecks.Include(pd => pd.Pokers).Select(pd => new PokerDeck(pd.Id, pd.Pokers.Select(p => new Poker(p.Value)).ToList())
-            {
-                Description = pd.Description,
-            });
+            return _dbContext.PokerDecks.Include(pd => pd.Pokers).Select(pd => new PokerDeck(pd.Id, pd.Description, pd.Pokers.Select(p => new Poker(p.Value)).ToList()));
         }
     }
 }

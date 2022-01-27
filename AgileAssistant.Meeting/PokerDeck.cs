@@ -19,9 +19,10 @@ namespace AgileAssistant.Meeting
         public IReadOnlyCollection<Poker> Pokers => _pokers.AsReadOnly();
 
 
-        public PokerDeck(Guid key, IEnumerable<Poker> pokers = null)
+        public PokerDeck(Guid key, string description = null, IEnumerable<Poker> pokers = null)
         {
             Key = key;
+            Description = description ?? string.Empty;
             _pokers = pokers?.ToList() ?? new List<Poker>();
         }
 

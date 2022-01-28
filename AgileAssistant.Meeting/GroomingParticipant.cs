@@ -12,6 +12,8 @@ namespace AgileAssistant.Meeting
 
         public string SelectedPokerKey { get; set; }
 
+        public List<string> SelectedPokerKeys { get; set; }
+
         public GroomingParticipant(string name)
         {
             Name = name;

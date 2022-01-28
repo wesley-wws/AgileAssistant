@@ -12,6 +12,9 @@ namespace AgileAssistant.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public class PokerDecksController : ControllerBase
     {
         private readonly AgileAssistantDBContext _dbContext;
@@ -23,9 +26,6 @@ namespace AgileAssistant.Web.Controllers
 
 
         [HttpGet]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public IEnumerable<PokerDeck> GetPokerDecks()
         {
             return _dbContext.PokerDecks.Include(pd => pd.Pokers).Select(pd => new PokerDeck(pd.Id, pd.Description, pd.Pokers.Select(p => new Poker(p.Value)).ToList()));

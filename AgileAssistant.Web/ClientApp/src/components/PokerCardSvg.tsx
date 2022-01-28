@@ -11,6 +11,10 @@ import Poker_40 from '../images/40.svg';
 import Poker_100 from '../images/100.svg';
 import Poker_Cover from '../images/cover.svg';
 import Poker_Coffee from '../images/coffee.svg';
+import Poker_Infinite from '../images/infinite.svg';
+import Poker_Brownie from '../images/brownie.svg';
+import Poker_Dragons from '../images/dragons.svg';
+import Poker_YakShaving from '../images/yak_shaving.svg';
 
 enum PredefinedPokerKeys {
 	One = '1',
@@ -23,12 +27,14 @@ enum PredefinedPokerKeys {
 	Fourty = '40',
 	OneHundred = '100',
 	Coffee = 'coffee',
+	Infinite = 'infinite',
+	Brownie = 'brownie',
+	Dragons = 'dragons',
+	YakShaving = 'yak_shaving',
 }
 
 function getPokerImage(key: string | null) {
 	switch (key) {
-		case PredefinedPokerKeys.Coffee:
-			return Poker_Coffee;
 		case PredefinedPokerKeys.One:
 			return Poker_1;
 		case PredefinedPokerKeys.Two:
@@ -47,6 +53,16 @@ function getPokerImage(key: string | null) {
 			return Poker_40;
 		case PredefinedPokerKeys.OneHundred:
 			return Poker_100;
+		case PredefinedPokerKeys.Coffee:
+			return Poker_Coffee;
+		case PredefinedPokerKeys.Infinite:
+			return Poker_Infinite;
+		case PredefinedPokerKeys.Brownie:
+			return Poker_Brownie;
+		case PredefinedPokerKeys.Dragons:
+			return Poker_Dragons;
+		case PredefinedPokerKeys.YakShaving:
+			return Poker_YakShaving;
 		default:
 			return Poker_Cover;
 	}

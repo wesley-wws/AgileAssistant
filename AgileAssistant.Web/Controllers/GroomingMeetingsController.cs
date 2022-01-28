@@ -16,6 +16,9 @@ using Microsoft.EntityFrameworkCore;
 namespace AgileAssistant.Web.Controllers
 {
     [Route("api/[controller]")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ApiController]
     public class GroomingMeetingsController : ControllerBase
     {
@@ -34,27 +37,18 @@ namespace AgileAssistant.Web.Controllers
         }
 
         [HttpGet]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public IEnumerable<GroomingMeeting> GetGroomingMeetings()
         {
             return _meetingManager.All();
         }
 
         [HttpGet("{meetingId}")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         public GroomingMeeting GetGroomingMeeting(string meetingId)
         {
             return _meetingManager.Get(meetingId);
         }
 
         [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult AddGroomingMeeting([FromBody] AddGroomingMeetingVM parameter)
         {
@@ -69,9 +63,6 @@ namespace AgileAssistant.Web.Controllers
         }
 
         [HttpPost("{meetingId}/join/{userName}")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult AddParticipant(string meetingId, string userName)
         {
@@ -90,10 +81,7 @@ namespace AgileAssistant.Web.Controllers
             return Ok();
         }
 
-        [HttpPost("{meetingId}/participants/{userName}/{selectedPokerKey}")]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [HttpPost("{meetingId}/participants/{userName}/selectedPoker/{selectedPokerKey}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult UpdateSelectedPoker(string meetingId, string userName, string selectedPokerKey)
         {
@@ -110,6 +98,27 @@ namespace AgileAssistant.Web.Controllers
             }
 
             _groomingHubContext.SelectPoker_BroadcastGroup(meetingId, userName, selectedPokerKey);
+
+            return Ok();
+        }
+
+        [HttpPost("{meetingId}/participants/{userName}/selectedPokers")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult UpdateSelectedPokers(string meetingId, string userName, [FromBody]string[] selectedPokerKeys)
+        {
+            var meeting = _meetingManager.Get(meetingId);
+            if (meeting == null)
+            {
+                return BadRequest("The meeting does not exist!");
+            }
+
+            var isSucceed = meeting.UpdateParticipantPokers(userName, selectedPokerKeys);
+            if (!isSucceed)
+            {
+                return BadRequest("The user does not exist!");
+            }
+
+            _groomingHubContext.SelectPokers_BroadcastGroup(meetingId, userName, selectedPokerKeys);
 
             return Ok();
         }

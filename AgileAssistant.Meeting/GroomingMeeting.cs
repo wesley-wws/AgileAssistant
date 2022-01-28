@@ -55,6 +55,18 @@ namespace AgileAssistant.Meeting
             return false;
         }
 
+        public bool UpdateParticipantPokers(string name, IEnumerable<string> selectedPokerKeys)
+        {
+            UpdateActiveDate();
+            if (_participants.TryGetValue(name, out GroomingParticipant participant))
+            {
+                participant.SelectedPokerKeys = selectedPokerKeys.ToList();
+                return true;
+            }
+
+            return false;
+        }
+
         public void UpdateTopic(string topic)
         {
             UpdateActiveDate();

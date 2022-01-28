@@ -22,7 +22,7 @@ function PokerSelector(props: Props) {
 	const [selectedPokerKey, setSelectedPoker] = useState<string | null>(null);
 
 	const defaultPokerCandidates = props.pokerDeck.pokers.map((poker: any): IPokerSelectorCandidate => {
-		return { value: poker.value, isShown: false, isSelected: false, pokerDeck: props.pokerDeck };
+		return { value: poker.value, isShown: true, isSelected: false, pokerDeck: props.pokerDeck };
 	});
 
 	const [pokerCandidates, setPokerCandidates] = useState<Array<IPokerSelectorCandidate>>(defaultPokerCandidates);
@@ -41,7 +41,7 @@ function PokerSelector(props: Props) {
 					minWidth: 'fit-content',
 					padding: `${paddingVertical}px ${paddingVertical * 2}px`,
 					alignItems: 'center',
-					minHeight: `${selectedPokerSize * 16 + paddingVertical * 2}px`,
+					minHeight: `${selectedPokerSize * 24 + paddingVertical * 2}px`,
 				}}
 			>
 				{pokerCandidates.map((candidate: IPokerSelectorCandidate) => {

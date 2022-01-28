@@ -161,15 +161,7 @@ namespace AgileAssistant.Web
                         },
                         new DataAccessLayer.Entities.Poker
                         {
-                            Value = "coffee",
-                        },
-                        new DataAccessLayer.Entities.Poker
-                        {
                             Value = "infinite",
-                        },
-                        new DataAccessLayer.Entities.Poker
-                        {
-                            Value = "cover",
                         },
                         new DataAccessLayer.Entities.Poker
                         {
@@ -178,6 +170,14 @@ namespace AgileAssistant.Web
                         new DataAccessLayer.Entities.Poker
                         {
                             Value = "dragons",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "yak_shaving",
+                        },
+                        new DataAccessLayer.Entities.Poker
+                        {
+                            Value = "cover",
                         }
                     }
                 });

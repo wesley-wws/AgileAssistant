@@ -21,6 +21,8 @@ namespace AgileAssistant.Hubs
 
         Task SelectPoker(string meetingId, string userName, string pokerKey);
 
+        Task SelectPokers(string meetingId, string userName, string[] pokerKeys);
+
         Task ChangeTopic(string meetingId, string topic);
     }
 
@@ -34,6 +36,11 @@ namespace AgileAssistant.Hubs
         public static Task SelectPoker_BroadcastGroup(this IHubContext<GroomingHub, IGroomingHubClient> context, string meetingId, string userName, string pokerKey)
         {
             return context.Clients.Group(meetingId).SelectPoker(meetingId,userName, pokerKey);
+        }
+
+        public static Task SelectPokers_BroadcastGroup(this IHubContext<GroomingHub, IGroomingHubClient> context, string meetingId, string userName, string[] pokerKeys)
+        {
+            return context.Clients.Group(meetingId).SelectPokers(meetingId, userName, pokerKeys);
         }
 
         public static Task ChangeTopic_BroadcastGroup(this IHubContext<GroomingHub, IGroomingHubClient> context, string meetingId, string topic)

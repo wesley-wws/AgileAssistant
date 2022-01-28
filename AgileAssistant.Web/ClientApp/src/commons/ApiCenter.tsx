@@ -19,7 +19,11 @@ const apiCenter = {
 	},
 
 	updateSelectedPoker: function (meetingId: string, userName: string, selectedPokerKey: string) {
-		return axios.post(`/api/groomingmeetings/${meetingId}/participants/${userName}/${selectedPokerKey}`);
+		return axios.post(`/api/groomingmeetings/${meetingId}/participants/${userName}/selectedPoker/${selectedPokerKey}`);
+	},
+	
+	updateSelectedPokers: function (meetingId: string, userName: string, selectedPokerKeys: string[]) {
+		return axios.post(`/api/groomingmeetings/${meetingId}/participants/${userName}/selectedPokers`,selectedPokerKeys);
 	},
 
 	GetPokerDecks: function () {

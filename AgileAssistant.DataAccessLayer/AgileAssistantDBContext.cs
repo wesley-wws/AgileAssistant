@@ -19,7 +19,7 @@ namespace AgileAssistant.DataAccessLayer
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-
+            options.LogTo(Console.WriteLine);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -37,6 +37,7 @@ public class MeetingRepository : IMeetingRepository
 
     public Task<List<Meeting>> GetAllAsync(CancellationToken token = default)
     {
+        ClearInactivedMeetings(12);
         return Task.FromResult(_id_meeting_mapping.Values.ToList());
     }
 

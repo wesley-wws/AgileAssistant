@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\AGA.Application.Contracts\AGA.Application.Contracts.csproj" />
+	  <ProjectReference Include="..\AGA.Application\AGA.Application.csproj" />
+	  <ProjectReference Include="..\AGA.Hubs\AGA.Hubs.csproj" />
+	  <ProjectReference Include="..\AGA.Repository.EFCore\AGA.Repository.EFCore.csproj" />
+	  <ProjectReference Include="..\AGA.Repository.InMomery\AGA.Repository.InMomery.csproj" />
+	</ItemGroup>
+</Project>

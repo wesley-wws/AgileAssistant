@@ -21,7 +21,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAGA((provider, config) =>
 {
-    //config.SqliteDirectory = builder.Environment.ContentRootPath;
+    if (!builder.Environment.IsDevelopment())
+    {
+        config.SqliteDirectory = builder.Environment.ContentRootPath;
+    }
 });
 var app = builder.Build();
 

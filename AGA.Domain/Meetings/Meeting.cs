@@ -16,18 +16,18 @@ public class Meeting: AbstractEntity, IAggregateRoot
 
     public string Topic { get; private set; }
 
-    public Guid PokerDeckId { get; private set; }
+    public Guid DeckId { get; private set; }
 
     public ICollection<Participant> Participants => _participants.Values;
 
     public DateTime LastActiveDate { get; private set; } = DateTime.UtcNow;
 
 
-    public Meeting(Guid id, string topic,Guid pokerDeckId)
+    public Meeting(Guid id, string topic,Guid deckId)
     {
         Id = id;
         Topic = topic;
-        PokerDeckId = pokerDeckId;
+        DeckId = deckId;
     }
 
     public bool Join(string name)

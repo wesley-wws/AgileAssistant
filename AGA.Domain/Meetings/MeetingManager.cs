@@ -17,10 +17,10 @@ public class MeetingManager
         _meetingRepository = meetingRepository;
     }
 
-    public Task<Meeting> StartOne(string topic, Guid pokerDeckId, CancellationToken token)
+    public Task<Meeting> StartOne(string topic, Guid deckId, CancellationToken token)
     {
         var meetingId = Guid.NewGuid();
-        var meeting = new Meeting(meetingId, topic, pokerDeckId);
+        var meeting = new Meeting(meetingId, topic, deckId);
         return _meetingRepository.AddAsync(meeting, token);
     }
 }

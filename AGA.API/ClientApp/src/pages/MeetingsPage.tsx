@@ -5,7 +5,7 @@ import * as signalR from '@microsoft/signalr';
 
 export default function MeetingsPage() {
 	useEffect(() => {
-		const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl('/groominghub').build();
+		const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl('agahubs/meeting').build();
 		hubConnection.start();
 		hubConnection.on('clearMeeting', (data) => {
 			console.log(data);

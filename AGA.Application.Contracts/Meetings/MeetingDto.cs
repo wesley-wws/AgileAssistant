@@ -12,7 +12,7 @@ public record MeetingDto
 
     public string Topic { get; init; } = null!;
 
-    public Guid PokerDeckId { get; init; }
+    public Guid DeckId { get; init; }
 
     public List<ParticipantDto> Participants { get; init; } = null!;
 }

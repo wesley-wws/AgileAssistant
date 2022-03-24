@@ -24,6 +24,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Dockerfile" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Include="Dockerfile" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <ProjectReference Include="..\AGA.API.DependencyInjectionExtensions\AGA.API.DependencyInjectionExtensions.csproj" />
 	</ItemGroup>
 

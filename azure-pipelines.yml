@@ -35,6 +35,6 @@ stages:
         containerRegistry: 'WesleyDockerHub'
         repository: '$(dockerRepositoryName)'
         command: 'buildAndPush'
-        Dockerfile: '$(Build.SourcesDirectory)/PlaningPoker.Web/Dockerfile'
+        Dockerfile: '$(Build.SourcesDirectory)/AGA.API/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)'
     

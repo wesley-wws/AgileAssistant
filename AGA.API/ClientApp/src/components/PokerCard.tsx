@@ -1,20 +1,20 @@
 import PokerCardSvg from './PokerCardSvg';
 import PokerCardHtml from './PokerCardHtml';
-import IDeck from '../contracts/IDeck';
-import IPoker from '../contracts/IPoker';
 
-interface IPokerCard extends IPoker {
+interface IPokerCard{
+	id:string|undefined|null;
+    value:string|undefined|null;
 	isShown: boolean;
 	size?: number;
-	deck: IDeck;
+	deckDecription: string;
 }
 
 const PokerCard = function PokerCard(props: IPokerCard) {
-	if (props.deck.description === 'Predefined-1') {
+	if (props.deckDecription === 'Predefined-1') {
 		return <PokerCardSvg {...props} />;
 	}
 
-	if (props.deck.description === 'Custom-1') {
+	if (props.deckDecription === 'Custom-1') {
 		return <PokerCardHtml {...props} />;
 	}
 

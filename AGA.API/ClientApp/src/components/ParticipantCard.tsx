@@ -1,16 +1,18 @@
 import { Card, CardContent, Typography, Divider } from '@mui/material';
 import PokerCard from './PokerCard';
-import IParticipant from '../contracts/IParticipant';
-import IDeck from '../contracts/IDeck';
 
-interface IParticipantCard extends IParticipant {
-	deck: IDeck;
+interface IParticipantCard {
+	name: string;
+	selectedPokerId: string|undefined|null;
+	selectedPokerValue: string|undefined|null;
+	deckDescription: string;
+	isPokerShown: boolean;
 }
 
 export default function ParticipantCard(props: IParticipantCard) {
 	return (
 		<Card elevation={3}>
-			{props.selectedPokerIds && <PokerCard value={props.selectedPokerIds} isShown={props.isShown} deck={props.deck} />}
+			{<PokerCard id={props.selectedPokerId} value={props.selectedPokerValue} isShown={props.isPokerShown} deckDecription={props.deckDescription} />}
 			<Divider />
 			<CardContent
 				sx={{

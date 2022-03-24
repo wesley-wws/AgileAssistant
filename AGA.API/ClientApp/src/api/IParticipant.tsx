@@ -1,5 +1,6 @@
 export default interface IParticipant {
 	name: string;
+	isPokerShown: boolean;
 	selectedPokerIds: string[];
-	isShown: boolean;
+	selectedPokerId: string|null|undefined;
 }

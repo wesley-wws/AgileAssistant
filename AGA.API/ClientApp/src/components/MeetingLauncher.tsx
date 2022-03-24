@@ -11,9 +11,9 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useSnackbar } from 'notistack';
 
-import apiCenter from '../commons/ApiCenter';
+import apiCenter from '../api/ApiCenter';
 
-import IDeck from '../contracts/IDeck';
+import IDeck from '../api/IDeck';
 
 interface Props {
 	meetingId?: string;
@@ -23,10 +23,10 @@ function HostLauncher(navigate: NavigateFunction) {
 	const { enqueueSnackbar } = useSnackbar();
 	const [topic, setTopic] = useState('');
 	const [decks, setDecks] = useState<IDeck[]>([]);
-	const [selectedDeckKey, setSelectedDeckKey] = useState<string | null>(null);
+	const [selectedDeckId, setSelectedDeckId] = useState<string>('');
 
 	useEffect(() => {
-		apiCenter.GetPokerDecks().then((response) => {
+		apiCenter.getDecksAsync().then((response) => {
 			setDecks(response.data);
 		});
 	}, []);
@@ -47,13 +47,15 @@ function HostLauncher(navigate: NavigateFunction) {
 				<InputLabel id="select-deck">Pokers</InputLabel>
 				<Select
 					labelId="select-deck"
+					label="Pokers"
+					value={selectedDeckId}
 					onChange={(e: SelectChangeEvent) => {
-						setSelectedDeckKey(e.target.value as string);
+						setSelectedDeckId(e.target.value);
 					}}
 				>
-					{decks.map((d: any) => {
+					{decks.map((d: IDeck,index) => {
 						return (
-							<MenuItem key={d.key} value={d.key}>
+							<MenuItem key={d.id} value={d.id}>
 								{d.description}
 							</MenuItem>
 						);
@@ -64,14 +66,14 @@ function HostLauncher(navigate: NavigateFunction) {
 			<Button
 				variant="contained"
 				onClick={async (e) => {
-					if (topic === '' || selectedDeckKey === null) {
+					if (topic === '' || selectedDeckId === '') {
 						enqueueSnackbar('Please fill the form.', {
 							variant: 'error',
 							preventDuplicate: true,
 						});
 						return;
 					}
-					const response = await apiCenter.AddMeetingAsync(topic, selectedDeckKey);
+					const response = await apiCenter.startMeetingAsync(topic, selectedDeckId);
 					navigate('/meetings/host/' + response.data.id);
 				}}
 			>
@@ -98,7 +100,7 @@ function ParticipantLauncher(meetingId: string, navigate: NavigateFunction) {
 			<Button
 				variant="contained"
 				onClick={async (e) => {
-					await apiCenter.JoinMeeting(meetingId, userName);
+					await apiCenter.joinMeetingAsync(meetingId, userName);
 					navigate('/meetings/participant/' + meetingId, {
 						state: {
 							userName: userName,

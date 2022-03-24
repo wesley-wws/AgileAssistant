@@ -7,13 +7,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import StopIcon from '@mui/icons-material/Stop';
-import apiCenter from '../commons/ApiCenter';
+import apiCenter from '../api/ApiCenter';
 import { useRequest } from 'ahooks';
+import IMeeting from '../api/IMeeting';
 
 interface Props {}
 
 export default function MeetingsViewer(props: Props) {
-	const [meetings, setMeetings] = useState([]);
+	const [meetings, setMeetings] = useState<IMeeting[]>([]);
 
 	// const response = useRequest(apiCenter.GetMeetingsAsync);
 	// response.run();
@@ -22,7 +23,7 @@ export default function MeetingsViewer(props: Props) {
 
 	 useEffect(() => {
 	 	// https://reactjs.org/docs/hooks-faq.html#what-can-i-do-if-my-effect-dependencies-change-too-often
-	 	apiCenter.GetMeetingsAsync().then((response) => setMeetings(response.data));
+	 	apiCenter.getMeetingsAsync().then((response) => setMeetings(response.data));
 	 }, []);
 
 	return (

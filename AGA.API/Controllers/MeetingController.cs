@@ -63,7 +63,5 @@ namespace AGA.API.Controllers
         {
             return await _meetingAppService.GetRecentLogsAsync();
         }
-
-
     }
 }

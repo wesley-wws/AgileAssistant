@@ -33,7 +33,7 @@ enum PredefinedPokerKeys {
 	YakShaving = 'yak_shaving',
 }
 
-function getPokerImage(key: string | null) {
+function getPokerImage(key: string | undefined | null) {
 	switch (key) {
 		case PredefinedPokerKeys.One:
 			return Poker_1;
@@ -69,10 +69,11 @@ function getPokerImage(key: string | null) {
 }
 
 interface IPokerCard {
-	value: string;
+	id: string | undefined | null;
+	value: string | undefined | null;
 	isShown: boolean;
 	size?: number;
-	deck: any;
+	deckDecription: string;
 }
 
 const pokerStyle = {

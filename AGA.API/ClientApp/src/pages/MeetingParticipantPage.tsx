@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { Container, Stack, Paper, Typography, Button, Divider } from '@mui/material';
 import PokerSelector from '../components/PokerSelector';
-import apiCenter from '../commons/ApiCenter';
+import apiCenter from '../api/ApiCenter';
+import IMeeting from '../api/IMeeting';
 
 interface IParams {
 	meetingId: string;
@@ -15,16 +16,16 @@ interface IPropState {
 export default function MeetingParticipantPage(props: any) {
 	const params = useParams<keyof IParams>();
 	const routeState = useLocation().state as IPropState;
-	const [meeting, setMeeting] = useState<any>(null);
+	const [meeting, setMeeting] = useState<IMeeting | null>(null);
 
-	let selectedPokerKey: any = null;
+	let selectedPokerId: string = '';
 
 	useEffect(() => {
 		// https://reactjs.org/docs/hooks-faq.html#what-can-i-do-if-my-effect-dependencies-change-too-often
 		if (params.meetingId === undefined) {
 			return;
 		}
-		apiCenter.GetMeetingAsync(params.meetingId).then((response) => setMeeting(response.data));
+		apiCenter.getMeetingAsync(params.meetingId).then((response) => setMeeting(response.data));
 	}, [params.meetingId]);
 
 	if (!meeting) {
@@ -43,7 +44,7 @@ export default function MeetingParticipantPage(props: any) {
 				<PokerSelector
 					deck={meeting.deck}
 					onPokerSelected={(pokerKey) => {
-						selectedPokerKey = pokerKey;
+						selectedPokerId = pokerKey;
 					}}
 				/>
 				<Button
@@ -54,7 +55,7 @@ export default function MeetingParticipantPage(props: any) {
 					variant="contained"
 					color="primary"
 					onClick={(e) => {
-						apiCenter.updateSelectedPoker(meeting.id, routeState.userName, selectedPokerKey);
+						apiCenter.selectedPokersAsync(meeting.id, routeState.userName, [selectedPokerId]);
 					}}
 				>
 					Pick

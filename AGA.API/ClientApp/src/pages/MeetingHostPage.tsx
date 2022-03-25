@@ -4,9 +4,10 @@ import { Container, Stack, Paper, Typography, Button, Divider, Box } from '@mui/
 import QRCode from 'qrcode.react';
 import * as signalR from '@microsoft/signalr';
 import ParticipantsViewer from '../components/ParticipantsViewer';
-import apiCenter from '../commons/ApiCenter';
-import IParticipant from '../contracts/IParticipant';
-import IMeeting from '../contracts/IMeeting';
+import apiCenter from '../api/ApiCenter';
+import IParticipant from '../api/IParticipant';
+import IMeeting from '../api/IMeeting';
+import constant from '../contracts/constance';
 
 interface IParams {
 	meetingId: string;
@@ -16,7 +17,7 @@ function getMeetingLink(meetingId: string): string {
 	return `${window.location.protocol}//${window.location.host}/launcher/${meetingId}`;
 }
 
-const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl('/groominghub').build();
+const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl(constant.meetingHubUrl).build();
 
 export default function MeetingHostPage() {
 	const params = useParams<keyof IParams>();
@@ -25,23 +26,24 @@ export default function MeetingHostPage() {
 	const meetingLink = params.meetingId === undefined ? '' : getMeetingLink(params.meetingId);
 
 	const [meeting, setMeeting] = useState<IMeeting | null>(null);
-	const [isShownAll, setIsShownAll] = useState<any>(false);
+	const [isShownAll, setIsShownAll] = useState<boolean>(false);
 
 	useEffect(() => {
-		//const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl('/groominghub').build();
+		//const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl(constant.meetingHubUrl).build();
 		hubConnection.on('AddParticipant', (meetingId: string, userName: string) => {
 			setMeeting((preMeeting) => {
 				if (preMeeting == null || meetingId !== preMeeting.id) {
 					return preMeeting;
 				}
-				const part = preMeeting.participants.find((p: any) => p.name === userName);
+				const part = preMeeting.participants.find((p: IParticipant) => p.name === userName);
 				if (part !== undefined) {
 					return preMeeting;
 				}
 				const participant: IParticipant = {
 					name: userName,
-					isShown: isShownAll,
-					selectedPokerKey: null,
+					isPokerShown: isShownAll,
+					selectedPokerIds: [],
+					selectedPokerId: null,
 				};
 				const newMeeting = { ...preMeeting };
 				newMeeting.participants = [...newMeeting.participants, participant];
@@ -50,7 +52,7 @@ export default function MeetingHostPage() {
 		});
 
 		hubConnection.on('SelectPoker', (meetingId: string, userName: string, pokerKey: string) => {
-			setMeeting((preMeeting: any) => {
+			setMeeting((preMeeting: IMeeting | null) => {
 				if (preMeeting == null || meetingId !== preMeeting.id) {
 					return preMeeting;
 				}
@@ -71,15 +73,16 @@ export default function MeetingHostPage() {
 				return;
 			}
 
-			apiCenter.GetMeetingAsync(params.meetingId).then((response) => {
+			apiCenter.getMeetingAsync(params.meetingId).then((response) => {
 				const meetingModel = response.data;
-				if (meetingModel === null || meetingModel === '') {
+				if (meetingModel === null) {
 					navigate('/error', {
 						state: {
 							message: 'No meeting record.',
 							details: params.meetingId,
 						},
 					});
+					return;
 				}
 				hubConnection.invoke('AddToGroup', meetingModel.id);
 				setMeeting(response.data);
@@ -115,10 +118,13 @@ export default function MeetingHostPage() {
 							variant="contained"
 							color="primary"
 							onClick={(e) => {
-								setIsShownAll((pre: any) => {
+								setIsShownAll((pre: boolean) => {
 									return !pre;
 								});
-								setMeeting((preMeeting: any) => {
+								setMeeting((preMeeting: IMeeting | null) => {
+									if(preMeeting===null){
+										return null;
+									}
 									preMeeting.participants = preMeeting.participants.map((p: IParticipant) => ({ ...p, isShown: !isShownAll }));
 									return preMeeting;
 								});

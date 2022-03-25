@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AGA.Domain.Meetings;
 
-public class Participant: AbstractEntity
+public class Participant : AbstractEntity
 {
     public string Name { get; init; }
 
@@ -16,7 +16,7 @@ public class Participant: AbstractEntity
         set
         {
             SelectedPokerIds = new List<Guid>();
-            if(value != null)
+            if (value != null)
             {
                 SelectedPokerIds.Add(value.Value);
             }
@@ -24,6 +24,8 @@ public class Participant: AbstractEntity
     }
 
     public List<Guid> SelectedPokerIds { get; set; } = new List<Guid>();
+
+    public bool IsPokerShown {get;set;}
 
     public Participant(string name)
     {

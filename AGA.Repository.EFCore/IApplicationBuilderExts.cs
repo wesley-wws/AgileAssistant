@@ -22,22 +22,42 @@ public static class IApplicationBuilderExts
             var deck = new Deck(Guid.NewGuid(), "Predefined-1");
             deck.SetPokers(new List<Poker>
                     {
-                        new Poker("1").SetSequence(100),
-                        new Poker("2").SetSequence(200),
-                        new Poker("3").SetSequence(300),
-                        new Poker("5").SetSequence(400),
-                        new Poker("8").SetSequence(500),
-                        new Poker("13").SetSequence(600),
-                        new Poker("20").SetSequence(700),
-                        new Poker("40").SetSequence(800),
-                        new Poker("100").SetSequence(900),
-                        new Poker("infinite").SetSequence(1000),
-                        new Poker("brownie").SetSequence(1100),
-                        new Poker("dragons").SetSequence(1200),
-                        new Poker("yak_shaving").SetSequence(1300),
-                        new Poker("cover").SetSequence(1400),
+                        new Poker(Guid.NewGuid(),"1").SetSequence(100),
+                        new Poker(Guid.NewGuid(),"2").SetSequence(200),
+                        new Poker(Guid.NewGuid(),"3").SetSequence(300),
+                        new Poker(Guid.NewGuid(),"5").SetSequence(400),
+                        new Poker(Guid.NewGuid(),"8").SetSequence(500),
+                        new Poker(Guid.NewGuid(),"13").SetSequence(600),
+                        new Poker(Guid.NewGuid(),"20").SetSequence(700),
+                        new Poker(Guid.NewGuid(),"40").SetSequence(800),
+                        new Poker(Guid.NewGuid(),"100").SetSequence(900),
+                        new Poker(Guid.NewGuid(),"infinite").SetSequence(1000),
+                        new Poker(Guid.NewGuid(),"brownie").SetSequence(1100),
+                        new Poker(Guid.NewGuid(),"dragons").SetSequence(1200),
+                        new Poker(Guid.NewGuid(),"yak_shaving").SetSequence(1300),
+                        new Poker(Guid.NewGuid(),"cover").SetSequence(1400),
                     });
             context.Decks.Add(deck);
+
+            deck = new Deck(Guid.NewGuid(), "Custom-1");
+            deck.SetPokers(new List<Poker>
+                    {
+                        new Poker(Guid.NewGuid(),"1/2").SetSequence(0),
+                        new Poker(Guid.NewGuid(),"1").SetSequence(100),
+                        new Poker(Guid.NewGuid(),"2").SetSequence(200),
+                        new Poker(Guid.NewGuid(),"3").SetSequence(300),
+                        new Poker(Guid.NewGuid(),"5").SetSequence(400),
+                        new Poker(Guid.NewGuid(),"8").SetSequence(500),
+                        new Poker(Guid.NewGuid(),"13").SetSequence(600),
+                        new Poker(Guid.NewGuid(),"20").SetSequence(700),
+                        new Poker(Guid.NewGuid(),"40").SetSequence(800),
+                        new Poker(Guid.NewGuid(),"100").SetSequence(900),
+                        new Poker(Guid.NewGuid(),"infinite").SetSequence(1000),
+                        new Poker(Guid.NewGuid(),"coffee").SetSequence(1100),
+                        new Poker(Guid.NewGuid(),"?").SetSequence(1200),
+                    });
+            context.Decks.Add(deck);
+
             context.SaveChanges();
         }
 

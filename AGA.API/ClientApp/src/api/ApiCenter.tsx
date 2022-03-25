@@ -11,8 +11,8 @@ const apiCenter = {
 		return axios.get<IMeeting|null>(`/api/meeting/${id}`);
 	},
 
-	startMeetingAsync: function (topic: string, pokerDeckId: string) {
-		return axios.post<IMeeting>(`/api/meeting/start`, { topic: topic, pokerDeckKey: pokerDeckId });
+	startMeetingAsync: function (topic: string, deckId: string) {
+		return axios.post<IMeeting>(`/api/meeting/start`, { topic: topic, deckId: deckId });
 	},
 
 	joinMeetingAsync: function (meetingId: string, userName: string) {
@@ -20,12 +20,17 @@ const apiCenter = {
 	},
 
 	selectedPokersAsync: function (meetingId: string, userName: string, selectedPokerIds: string[]) {
-		return axios.post(`/api/meeting/${meetingId}/participant/selectPokers`, { userName, selectedPokerIds });
+		return axios.post(`/api/meeting/${meetingId}/participant/selectPokers`, { meetingId,userName, selectedPokerIds });
 	},
 
 	getDecksAsync: function () {
 		return axios.get<IDeck[]>('/api/decks');
 	},
+	
+	getDeckAsync: function (deckId: string) {
+		return axios.get<IDeck|null>(`/api/deck/${deckId}`);
+	},
+
 };
 
 export default apiCenter;

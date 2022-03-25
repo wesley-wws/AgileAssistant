@@ -28,5 +28,11 @@ namespace AgileAssistant.Web.Controllers
         {
             return await _deckAppService.GetAllDecksAsync(cancellationToken);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DeckDto>> GetPokerDeck(Guid id, CancellationToken cancellationToken)
+        {
+            return await _deckAppService.FindDeckAsync(id, cancellationToken);
+        }
     }
 }

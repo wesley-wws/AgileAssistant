@@ -9,4 +9,6 @@ namespace AGA.Domain.Decks;
 public interface IDeckRepository
 {
     Task<List<Deck>> GetAllAsync(CancellationToken cancellationToken);
+
+    Task<Deck?> FindAsync(Guid id, CancellationToken cancellationToken);
 }

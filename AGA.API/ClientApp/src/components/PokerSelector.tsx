@@ -22,7 +22,6 @@ const selectedPokerSize = 12;
 const paddingVertical = 10;
 
 function PokerSelector(props: IPokerSelector) {
-	const [selectedPokerKey, setSelectedPoker] = useState<string | null | undefined>(null);
 
 	const defaultPokerCandidates = props.deck.pokers.map((poker: IPoker, index): IPokerSelectorCandidate => {
 		let pokerCard: IPokerCard = {
@@ -31,10 +30,11 @@ function PokerSelector(props: IPokerSelector) {
 			isShown: true,
 			deckDecription: props.deck.description,
 		};
-		return { pokerCard: pokerCard, isSelected: index === 0 };
+		return { pokerCard: pokerCard, isSelected: false };
 	});
-
+	
 	const [pokerCandidates, setPokerCandidates] = useState<Array<IPokerSelectorCandidate>>(defaultPokerCandidates);
+	
 
 	return (
 		<Grid
@@ -56,13 +56,11 @@ function PokerSelector(props: IPokerSelector) {
 				{pokerCandidates.map((candidate: IPokerSelectorCandidate) => {
 					return (
 						<Box
-							key={candidate.pokerCard.value}
+							key={candidate.pokerCard.id}
 							sx={{
-								boxShadow: () => (candidate.pokerCard.value === selectedPokerKey ? 24 : 'none'),
+								boxShadow: () => (candidate.isSelected ? 24 : 'none'),
 							}}
 							onClick={(event: any) => {
-								setSelectedPoker(candidate.pokerCard.value);
-
 								const newPokerOptions = [...pokerCandidates];
 
 								const selectedIndex = newPokerOptions.findIndex((o) => o.isSelected);
@@ -70,14 +68,14 @@ function PokerSelector(props: IPokerSelector) {
 								selectedPokerOption.isSelected = false;
 								newPokerOptions[selectedIndex] = selectedPokerOption;
 
-								const index = newPokerOptions.findIndex((o) => o.pokerCard.value === candidate.pokerCard.value);
+								const index = newPokerOptions.findIndex((o) => o.pokerCard.id === candidate.pokerCard.id);
 								const newPokerOption = { ...newPokerOptions[index] };
 								newPokerOption.isSelected = true;
 								newPokerOptions[index] = newPokerOption;
 
 								setPokerCandidates(newPokerOptions);
-								if (candidate.pokerCard.value !== null && candidate.pokerCard.value !== undefined) {
-									props.onPokerSelected(candidate.pokerCard.value);
+								if (candidate.pokerCard.id !== null && candidate.pokerCard.id !== undefined) {
+									props.onPokerSelected(candidate.pokerCard.id);
 								}
 							}}
 						>

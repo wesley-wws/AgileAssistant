@@ -16,8 +16,9 @@ public class Poker : AbstractEntity
 
     public int Sequence { get; private set; }
 
-    public Poker(string value)
+    public Poker(Guid id, string value)
     {
+        Id = id;
         Value = value;
     }
 

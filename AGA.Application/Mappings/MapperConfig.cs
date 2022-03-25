@@ -32,6 +32,6 @@ internal static class ObjectMapper
 
     public static D Map<D>(object source)
     {
-        return _mapper.Map<D>(source);
+        return _mapper.Map<D>(source); 
     }
 }

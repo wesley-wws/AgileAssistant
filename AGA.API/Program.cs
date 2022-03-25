@@ -9,8 +9,6 @@ builder.Services.AddLogging(configure =>
 
 builder.Services.AddControllers();
 
-builder.Services.AddSignalR();
-
 // In production, the React files will be served from this directory
 builder.Services.AddSpaStaticFiles(configuration =>
 {

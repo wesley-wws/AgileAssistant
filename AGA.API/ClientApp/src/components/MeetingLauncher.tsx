@@ -28,6 +28,7 @@ function HostLauncher(navigate: NavigateFunction) {
 	useEffect(() => {
 		apiCenter.getDecksAsync().then((response) => {
 			setDecks(response.data);
+			setSelectedDeckId(response.data[0]?.id ?? '');
 		});
 	}, []);
 
@@ -53,7 +54,7 @@ function HostLauncher(navigate: NavigateFunction) {
 						setSelectedDeckId(e.target.value);
 					}}
 				>
-					{decks.map((d: IDeck,index) => {
+					{decks.map((d: IDeck, index) => {
 						return (
 							<MenuItem key={d.id} value={d.id}>
 								{d.description}

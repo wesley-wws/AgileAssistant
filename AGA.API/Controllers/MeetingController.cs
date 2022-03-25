@@ -1,6 +1,8 @@
 ﻿using AGA.Application.Contracts.Meetings;
+using AgileAssistant.Hubs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +19,14 @@ namespace AGA.API.Controllers
     public class MeetingController : ControllerBase
     {
         private readonly IMeetingAppService _meetingAppService;
+        private readonly IHubContext<MeetingHub, IMeetingHubClient> _meetingHubContext;
 
-        public MeetingController(IMeetingAppService meetingAppService)
+        public MeetingController(
+            IMeetingAppService meetingAppService,
+            IHubContext<MeetingHub, IMeetingHubClient> meetingHubContext)
         {
             _meetingAppService = meetingAppService;
+            _meetingHubContext = meetingHubContext;
         }
 
         [HttpGet]
@@ -46,6 +52,7 @@ namespace AGA.API.Controllers
         public async Task<ActionResult> Join(Guid meetingId, string userName)
         {
             await _meetingAppService.JoinAsync(meetingId, userName);
+            await _meetingHubContext.AddParticipantAsync_BroadcastGroup(meetingId,userName);
             return Ok();
         }
 
@@ -54,6 +61,7 @@ namespace AGA.API.Controllers
         public async Task<ActionResult> SelectedPokers(SelectPokersDto dto)
         {
             await _meetingAppService.SelectPokersAsync(dto);
+            await _meetingHubContext.SelectPokersAsync_BroadcastGroup(dto.MeetingId, dto.UserName, dto.SelectedPokerIds);
             return Ok();
         }
 

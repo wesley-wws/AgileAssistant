@@ -22,4 +22,15 @@ public class DeckAppService : IDeckAppService
         var decks = await _deckRepository.GetAllAsync(cancellationToken);
         return ObjectMapper.Map<List<DeckDto>>(decks);
     }
+
+
+    public async Task<DeckDto?> FindDeckAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var deck = await _deckRepository.FindAsync(id, cancellationToken);
+        if (deck == null)
+        {
+            return null;
+        }
+        return ObjectMapper.Map<DeckDto>(deck);
+    }
 }

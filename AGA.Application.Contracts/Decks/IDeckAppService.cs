@@ -9,4 +9,6 @@ namespace AGA.Application.Contracts.Decks;
 public interface IDeckAppService
 {
     Task<List<DeckDto>> GetAllDecksAsync(CancellationToken cancellationToken);
+
+    Task<DeckDto?> FindDeckAsync(Guid id, CancellationToken cancellationToken);
 }

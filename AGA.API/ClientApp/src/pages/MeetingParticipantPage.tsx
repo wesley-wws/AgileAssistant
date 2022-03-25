@@ -4,6 +4,7 @@ import { Container, Stack, Paper, Typography, Button, Divider } from '@mui/mater
 import PokerSelector from '../components/PokerSelector';
 import apiCenter from '../api/ApiCenter';
 import IMeeting from '../api/IMeeting';
+import IDeck from '../api/IDeck';
 
 interface IParams {
 	meetingId: string;
@@ -17,15 +18,25 @@ export default function MeetingParticipantPage(props: any) {
 	const params = useParams<keyof IParams>();
 	const routeState = useLocation().state as IPropState;
 	const [meeting, setMeeting] = useState<IMeeting | null>(null);
+	const [deck, setDeck] = useState<IDeck | null>(null);
 
 	let selectedPokerId: string = '';
 
 	useEffect(() => {
 		// https://reactjs.org/docs/hooks-faq.html#what-can-i-do-if-my-effect-dependencies-change-too-often
-		if (params.meetingId === undefined) {
-			return;
-		}
-		apiCenter.getMeetingAsync(params.meetingId).then((response) => setMeeting(response.data));
+		(async () => {
+			if (params.meetingId === undefined) {
+				return;
+			}
+			const meetingResponse = await apiCenter.getMeetingAsync(params.meetingId);
+			const meetingModel = meetingResponse.data;
+			setMeeting(meetingModel);
+			if (meetingModel === null) {
+				return;
+			}
+			const deckResponse = await apiCenter.getDeckAsync(meetingModel.deckId);
+			setDeck(deckResponse.data);
+		})();
 	}, [params.meetingId]);
 
 	if (!meeting) {
@@ -33,34 +44,36 @@ export default function MeetingParticipantPage(props: any) {
 	}
 
 	return (
-		<Container maxWidth="xl">
-			<Stack pt={2} spacing={2}>
-				<Paper elevation={20}>
-					<Typography align="center" m={2} variant="h6">
-						{meeting.topic} - {routeState.userName}
-					</Typography>
-				</Paper>
-				<Divider />
-				<PokerSelector
-					deck={meeting.deck}
-					onPokerSelected={(pokerKey) => {
-						selectedPokerId = pokerKey;
-					}}
-				/>
-				<Button
-					sx={{
-						marginTop: '20px',
-						alignSelf: 'center',
-					}}
-					variant="contained"
-					color="primary"
-					onClick={(e) => {
-						apiCenter.selectedPokersAsync(meeting.id, routeState.userName, [selectedPokerId]);
-					}}
-				>
-					Pick
-				</Button>
-			</Stack>
-		</Container>
+		deck && (
+			<Container maxWidth="xl">
+				<Stack pt={2} spacing={2}>
+					<Paper elevation={20}>
+						<Typography align="center" m={2} variant="h6">
+							{meeting.topic} - {routeState.userName}
+						</Typography>
+					</Paper>
+					<Divider />
+					<PokerSelector
+						deck={deck}
+						onPokerSelected={(pokerId) => {
+							selectedPokerId = pokerId;
+						}}
+					/>
+					<Button
+						sx={{
+							marginTop: '20px',
+							alignSelf: 'center',
+						}}
+						variant="contained"
+						color="primary"
+						onClick={(e) => {
+							apiCenter.selectedPokersAsync(meeting.id, routeState.userName, [selectedPokerId]);
+						}}
+					>
+						Pick
+					</Button>
+				</Stack>
+			</Container>
+		)
 	);
 }

@@ -37,7 +37,7 @@ export default function PokerCardHtml(props: IPokerCard) {
 				transform: () => (props.isShown ? 'rotateY(180deg) scaleX(-1)' : ''),
 				backgroundImage: () => (props.isShown ? `` : ``),
 				border: 'solid 2px #686868',
-				borderRadius: '10px',
+				borderRadius: '3px',
 				fontFamily: 'Varela Round',
 			}}
 		>
@@ -62,7 +62,7 @@ export default function PokerCardHtml(props: IPokerCard) {
 					paddingBottom: '10px',
 				}}
 			>
-				<span>{props.value}</span>
+				<span>{props.value?.slice(0,3)}</span>
 			</Box>
 			<Box
 				sx={{

@@ -10,5 +10,5 @@ public record AddMeetingDto
 {
     public string Topic { get; init; } = null!;
 
-    public Guid PokerDeckId { get; init; }
+    public Guid DeckId { get; init; }
 }

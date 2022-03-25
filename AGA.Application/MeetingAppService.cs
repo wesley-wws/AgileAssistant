@@ -12,7 +12,9 @@ public class MeetingAppService : IMeetingAppService
 {
     private readonly IMeetingRepository _meetingRepository;
 
-    public MeetingAppService(IMeetingRepository meetingRepository)
+    public MeetingAppService(
+        IMeetingRepository meetingRepository
+        )
     {
         _meetingRepository = meetingRepository;
     }
@@ -37,7 +39,7 @@ public class MeetingAppService : IMeetingAppService
 
     public async Task<MeetingDto> StartAsync(AddMeetingDto dto, CancellationToken token = default)
     {
-        var meeting = new Meeting(Guid.NewGuid(), dto.Topic, dto.PokerDeckId);
+        var meeting = new Meeting(Guid.NewGuid(), dto.Topic, dto.DeckId);
         meeting = await _meetingRepository.AddAsync(meeting, token);
         return ObjectMapper.Map<MeetingDto>(meeting);
     }
@@ -48,7 +50,7 @@ public class MeetingAppService : IMeetingAppService
         var meeting = await _meetingRepository.FindAsync(meetingId, token);
         if (meeting is null)
         {
-            throw new ArgumentException($"Can't find meeting {meetingId}", nameof(meeting));
+            throw new ArgumentException($"Can't find meeting {meetingId}", nameof(meetingId));
         }
 
         meeting.Join(userName);
@@ -60,7 +62,7 @@ public class MeetingAppService : IMeetingAppService
         var meeting = await _meetingRepository.FindAsync(dto.MeetingId, token);
         if (meeting is null)
         {
-            throw new ArgumentException($"Can't find meeting {dto.MeetingId}", nameof(meeting));
+            throw new ArgumentException($"Can't find meeting {dto.MeetingId}", nameof(dto));
         }
 
         meeting.UpdateParticipantPokers(dto.UserName, dto.SelectedPokerIds);

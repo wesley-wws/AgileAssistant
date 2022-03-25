@@ -8,6 +8,7 @@ import apiCenter from '../api/ApiCenter';
 import IParticipant from '../api/IParticipant';
 import IMeeting from '../api/IMeeting';
 import constant from '../contracts/constance';
+import IDeck from '../api/IDeck';
 
 interface IParams {
 	meetingId: string;
@@ -26,6 +27,7 @@ export default function MeetingHostPage() {
 	const meetingLink = params.meetingId === undefined ? '' : getMeetingLink(params.meetingId);
 
 	const [meeting, setMeeting] = useState<IMeeting | null>(null);
+	const [deck, setDeck] = useState<IDeck | null>(null);
 	const [isShownAll, setIsShownAll] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -51,7 +53,7 @@ export default function MeetingHostPage() {
 			});
 		});
 
-		hubConnection.on('SelectPoker', (meetingId: string, userName: string, pokerKey: string) => {
+		hubConnection.on('SelectPokers', (meetingId: string, userName: string, pokerIds: string[]) => {
 			setMeeting((preMeeting: IMeeting | null) => {
 				if (preMeeting == null || meetingId !== preMeeting.id) {
 					return preMeeting;
@@ -59,7 +61,7 @@ export default function MeetingHostPage() {
 
 				preMeeting.participants = preMeeting.participants.map((p: IParticipant) => {
 					if (p.name === userName) {
-						return { ...p, selectedPokerKey: pokerKey };
+						return { ...p, selectedPokerId: pokerIds[0], selectedPokerIds: pokerIds };
 					}
 					return { ...p };
 				});
@@ -67,26 +69,43 @@ export default function MeetingHostPage() {
 			});
 		});
 
-		hubConnection.start().then(() => {
+		hubConnection.start().then(async () => {
 			// https://reactjs.org/docs/hooks-faq.html#what-can-i-do-if-my-effect-dependencies-change-too-often
 			if (params.meetingId === undefined) {
 				return;
 			}
 
-			apiCenter.getMeetingAsync(params.meetingId).then((response) => {
-				const meetingModel = response.data;
-				if (meetingModel === null) {
-					navigate('/error', {
-						state: {
-							message: 'No meeting record.',
-							details: params.meetingId,
-						},
-					});
-					return;
-				}
-				hubConnection.invoke('AddToGroup', meetingModel.id);
-				setMeeting(response.data);
-			});
+			var response = await apiCenter.getMeetingAsync(params.meetingId);
+			const meetingModel = response.data;
+			if (meetingModel === null) {
+				navigate('/error', {
+					state: {
+						message: 'No meeting record.',
+						details: params.meetingId,
+					},
+				});
+				return;
+			}
+			hubConnection.invoke('AddToGroup', meetingModel.id);
+			setMeeting(meetingModel);
+
+			if (meetingModel == null) {
+				return;
+			}
+
+			var deckResponse = await apiCenter.getDeckAsync(meetingModel.deckId);
+			const deckModel = deckResponse.data;
+			if (deckModel === null) {
+				navigate('/error', {
+					state: {
+						message: 'No deck record.',
+						details: meetingModel.deckId,
+					},
+				});
+				return;
+			}
+
+			setDeck(deckModel);
 		});
 
 		return () => {
@@ -96,7 +115,7 @@ export default function MeetingHostPage() {
 
 	return (
 		<>
-			{meeting && (
+			{meeting && deck && (
 				<Container
 					sx={{
 						paddingTop: 2,
@@ -122,17 +141,17 @@ export default function MeetingHostPage() {
 									return !pre;
 								});
 								setMeeting((preMeeting: IMeeting | null) => {
-									if(preMeeting===null){
+									if (preMeeting === null) {
 										return null;
 									}
-									preMeeting.participants = preMeeting.participants.map((p: IParticipant) => ({ ...p, isShown: !isShownAll }));
+									preMeeting.participants = preMeeting.participants.map((p: IParticipant) => ({ ...p, isPokerShown: !isShownAll }));
 									return preMeeting;
 								});
 							}}
 						>
 							Open/Hide
 						</Button>
-						<ParticipantsViewer participants={meeting.participants} deck={meeting.deck} />
+						<ParticipantsViewer participants={meeting.participants} deck={deck} />
 						<Button
 							sx={{
 								marginTop: '20px',

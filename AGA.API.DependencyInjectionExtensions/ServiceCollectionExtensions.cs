@@ -17,6 +17,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddAGA(this IServiceCollection services, Action<IServiceProvider, AGADBContextConfiguration>? configureDb = null)
     {
+        services.AddSignalR();
+
         services.AddAgileAssistantDbContextSqlite(configureDb);
 
         services.AddScoped<IDeckRepository, DeckEFRepository>();

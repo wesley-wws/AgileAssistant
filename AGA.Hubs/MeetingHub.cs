@@ -6,45 +6,66 @@ using System.Threading.Tasks;
 
 namespace AgileAssistant.Hubs
 {
-    public class MeetingHub : Hub<IGroomingHubClient>
+    public class MeetingHub : Hub<IMeetingHubClient>
     {
         public async Task AddToGroup(string meetingId)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, meetingId);
         }
+
+        public override async Task OnConnectedAsync()
+        {
+            var meetingId = Context.Items["meetingId"]?.ToString();
+            if (meetingId is not null)
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, meetingId);
+            }
+            await base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            var meetingId = Context.Items["meetingId"]?.ToString();
+            if (meetingId is not null)
+            {
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, meetingId);
+            }
+
+            await base.OnDisconnectedAsync(exception);
+        }
     }
 
-    public interface IGroomingHubClient
+    public interface IMeetingHubClient
     {
-        Task AddParticipant(string meetingId, string userName);
+        Task AddParticipant(Guid meetingId, string userName);
 
-        Task SelectPoker(string meetingId, string userName, string pokerKey);
+        Task SelectPoker(Guid meetingId, string userName, Guid pokerId);
 
-        Task SelectPokers(string meetingId, string userName, string[] pokerKeys);
+        Task SelectPokers(Guid meetingId, string userName, Guid[] pokerIds);
 
-        Task ChangeTopic(string meetingId, string topic);
+        Task ChangeTopic(Guid meetingId, string topic);
     }
 
     public static class Extensions
     {
-        public static Task AddParticipant_BroadcastGroup(this IHubContext<MeetingHub, IGroomingHubClient> context, string meetingId, string userName)
+        public static Task AddParticipantAsync_BroadcastGroup(this IHubContext<MeetingHub, IMeetingHubClient> context, Guid meetingId, string userName)
         {
-            return context.Clients.Group(meetingId).AddParticipant(meetingId,userName);
+            return context.Clients.Group(meetingId.ToString()).AddParticipant(meetingId, userName);
         }
 
-        public static Task SelectPoker_BroadcastGroup(this IHubContext<MeetingHub, IGroomingHubClient> context, string meetingId, string userName, string pokerKey)
+        public static Task SelectPokerAsync_BroadcastGroup(this IHubContext<MeetingHub, IMeetingHubClient> context, Guid meetingId, string userName, Guid pokerId)
         {
-            return context.Clients.Group(meetingId).SelectPoker(meetingId,userName, pokerKey);
+            return context.Clients.Group(meetingId.ToString()).SelectPoker(meetingId, userName, pokerId);
         }
 
-        public static Task SelectPokers_BroadcastGroup(this IHubContext<MeetingHub, IGroomingHubClient> context, string meetingId, string userName, string[] pokerKeys)
+        public static Task SelectPokersAsync_BroadcastGroup(this IHubContext<MeetingHub, IMeetingHubClient> context, Guid meetingId, string userName, Guid[] pokerIds)
         {
-            return context.Clients.Group(meetingId).SelectPokers(meetingId, userName, pokerKeys);
+            return context.Clients.Group(meetingId.ToString()).SelectPokers(meetingId, userName, pokerIds);
         }
 
-        public static Task ChangeTopic_BroadcastGroup(this IHubContext<MeetingHub, IGroomingHubClient> context, string meetingId, string topic)
+        public static Task ChangeTopicAsync_BroadcastGroup(this IHubContext<MeetingHub, IMeetingHubClient> context, Guid meetingId, string topic)
         {
-            return context.Clients.Group(meetingId).ChangeTopic(meetingId,topic);
+            return context.Clients.Group(meetingId.ToString()).ChangeTopic(meetingId, topic);
         }
     }
 }

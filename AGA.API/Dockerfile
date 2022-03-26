@@ -17,7 +17,7 @@ RUN apt-get update \
 WORKDIR /src
 COPY ["AGA.API/AGA.API.csproj", "AGA.API/"]
 COPY ["AGA.API.DependencyInjectionExtensions/AGA.API.DependencyInjectionExtensions.csproj", "AGA.API.DependencyInjectionExtensions/"]
-COPY ["AGA.Application.csproj", "AGA.Application/"]
+COPY ["AGA.Application/AGA.Application.csproj", "AGA.Application/"]
 COPY ["AGA.Application.Contracts/AGA.Application.Contracts.csproj", "AGA.Application.Contracts/"]
 COPY ["AGA.Domain/AGA.Domain.csproj", "AGA.Domain/"]
 COPY ["AGA.Domain.Shared/AGA.Domain.Shared.csproj", "AGA.Domain.Shared/"]

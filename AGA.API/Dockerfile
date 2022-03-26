@@ -16,15 +16,15 @@ RUN apt-get update \
 
 WORKDIR /src
 COPY ["AGA.API/AGA.API.csproj", "AGA.API/"]
-COPY ["AGA.API.DependencyInjectionExtensions.csproj", "AGA.API.DependencyInjectionExtensions/"]
+COPY ["AGA.API.DependencyInjectionExtensions/AGA.API.DependencyInjectionExtensions.csproj", "AGA.API.DependencyInjectionExtensions/"]
 COPY ["AGA.Application.csproj", "AGA.Application/"]
-COPY ["AGA.Application.Contracts.csproj", "AGA.Application.Contracts/"]
-COPY ["AGA.Domain.csproj", "AGA.Domain/"]
-COPY ["AGA.Domain.Shared.csproj", "AGA.Domain.Shared/"]
-COPY ["AGA.Hubs.csproj", "AGA.Hubs/"]
-COPY ["AGA.Infrastructure.csproj", "AGA.Infrastructure/"]
-COPY ["AGA.Repository.EFCore.csproj", "AGA.Repository.EFCore/"]
-COPY ["AGA.Repository.InMomery.csproj", "AGA.Repository.InMomery/"]
+COPY ["AGA.Application.Contracts/AGA.Application.Contracts.csproj", "AGA.Application.Contracts/"]
+COPY ["AGA.Domain/AGA.Domain.csproj", "AGA.Domain/"]
+COPY ["AGA.Domain.Shared/AGA.Domain.Shared.csproj", "AGA.Domain.Shared/"]
+COPY ["AGA.Hubs/AGA.Hubs.csproj", "AGA.Hubs/"]
+COPY ["AGA.Infrastructure/AGA.Infrastructure.csproj", "AGA.Infrastructure/"]
+COPY ["AGA.Repository.EFCore/AGA.Repository.EFCore.csproj", "AGA.Repository.EFCore/"]
+COPY ["AGA.Repository.InMomery/AGA.Repository.InMomery.csproj", "AGA.Repository.InMomery/"]
 RUN dotnet restore "AGA.API/AGA.API.csproj"
 
 COPY . .

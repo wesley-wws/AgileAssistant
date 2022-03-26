@@ -19,7 +19,7 @@ public static class IApplicationBuilderExts
             var context = serviceScope.ServiceProvider.GetRequiredService<AgileAssistantDBContext>();
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
-            var deck = new Deck(Guid.NewGuid(), "Predefined-1");
+            var deck = new Deck(Guid.Parse("6fdf6ffc-ed77-94fa-407e-a7b86ed9e591"), "Predefined");
             deck.SetPokers(new List<Poker>
                     {
                         new Poker(Guid.NewGuid(),"1").SetSequence(100),
@@ -39,10 +39,11 @@ public static class IApplicationBuilderExts
                     });
             context.Decks.Add(deck);
 
-            deck = new Deck(Guid.NewGuid(), "Custom-1");
+            deck = new Deck(Guid.Parse("6fdf6ffc-ed77-94fa-407e-a7b86ed9e592"), "Blue");
             deck.SetPokers(new List<Poker>
                     {
-                        new Poker(Guid.NewGuid(),"1/2").SetSequence(0),
+                        new Poker(Guid.NewGuid(),"0").SetSequence(0),
+                        new Poker(Guid.NewGuid(),"1/2").SetSequence(50),
                         new Poker(Guid.NewGuid(),"1").SetSequence(100),
                         new Poker(Guid.NewGuid(),"2").SetSequence(200),
                         new Poker(Guid.NewGuid(),"3").SetSequence(300),
@@ -55,6 +56,13 @@ public static class IApplicationBuilderExts
                         new Poker(Guid.NewGuid(),"infinite").SetSequence(1000),
                         new Poker(Guid.NewGuid(),"coffee").SetSequence(1100),
                         new Poker(Guid.NewGuid(),"?").SetSequence(1200),
+                    });
+            context.Decks.Add(deck);
+
+            deck = new Deck(Guid.Parse("6fdf6ffc-ed77-94fa-407e-a7b86ed9e593"), "Custom");
+            deck.SetPokers(new List<Poker>
+                    {
+                        new Poker(Guid.NewGuid()," ").SetSequence(0),
                     });
             context.Decks.Add(deck);
 

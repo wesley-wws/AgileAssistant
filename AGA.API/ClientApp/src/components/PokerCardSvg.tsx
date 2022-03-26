@@ -15,6 +15,7 @@ import Poker_Infinite from '../images/infinite.svg';
 import Poker_Brownie from '../images/brownie.svg';
 import Poker_Dragons from '../images/dragons.svg';
 import Poker_YakShaving from '../images/yak_shaving.svg';
+import IPoker from '../api/IPoker';
 
 enum PredefinedPokerKeys {
 	One = '1',
@@ -69,11 +70,10 @@ function getPokerImage(key: string | undefined | null) {
 }
 
 interface IPokerCard {
-	id: string | undefined | null;
-	value: string | undefined | null;
+	poker: IPoker | undefined;
 	isShown: boolean;
 	size?: number;
-	deckDecription: string;
+	onClick?: (event: any) => void;
 }
 
 const pokerStyle = {
@@ -100,8 +100,9 @@ export default function PokerCardSvg(props: IPokerCard) {
 				transition: 'transform 0.5s ease-in-out,width 0.3s, height 0.3s',
 				transform: () => (props.isShown ? 'rotateY(180deg) scaleX(-1)' : ''),
 				backgroundSize: 'cover',
-				backgroundImage: () => (props.isShown ? `url(${getPokerImage(props.value)})` : `url(${Poker_Cover})`),
+				backgroundImage: () => (props.isShown ? `url(${getPokerImage(props.poker?.value)})` : `url(${Poker_Cover})`),
 			}}
+			onClick={props.onClick}
 		></Box>
 	);
 }

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace AGA.Domain.Decks;
 
-public class Poker : AbstractEntity
+public class Poker : AbstractEntity<Guid, int>
 {
-    public Guid Id { get; init; }
-
     public Guid DeckId { get; private set; }
 
     public string Value { get; init; }
@@ -17,8 +15,8 @@ public class Poker : AbstractEntity
     public int Sequence { get; private set; }
 
     public Poker(Guid id, string value)
+        : base(id)
     {
-        Id = id;
         Value = value;
     }
 

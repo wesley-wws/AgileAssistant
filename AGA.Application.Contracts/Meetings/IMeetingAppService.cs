@@ -14,7 +14,7 @@ public interface IMeetingAppService
 
     Task<MeetingDto> StartAsync(AddMeetingDto dto, CancellationToken token = default);
 
-    Task JoinAsync(Guid meetingId, string userName, CancellationToken token = default);
+    Task<ParticipantDto> JoinAsync(Guid meetingId, string userName, CancellationToken token = default);
 
     Task SelectPokersAsync(SelectPokersDto dto, CancellationToken token = default);
 

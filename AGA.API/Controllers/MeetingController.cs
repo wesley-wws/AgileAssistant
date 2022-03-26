@@ -51,17 +51,17 @@ namespace AGA.API.Controllers
         [HttpPost("{meetingId}/join/{userName}")]
         public async Task<ActionResult> Join(Guid meetingId, string userName)
         {
-            await _meetingAppService.JoinAsync(meetingId, userName);
-            await _meetingHubContext.AddParticipantAsync_BroadcastGroup(meetingId,userName);
+            var participant = await _meetingAppService.JoinAsync(meetingId, userName);
+            await _meetingHubContext.AddParticipantAsync_BroadcastGroup(meetingId, participant);
             return Ok();
         }
 
         [HttpPost("{meetingId}/participant/selectPokers")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> SelectedPokers(SelectPokersDto dto)
+        public async Task<ActionResult> SelectPokers(SelectPokersDto dto)
         {
             await _meetingAppService.SelectPokersAsync(dto);
-            await _meetingHubContext.SelectPokersAsync_BroadcastGroup(dto.MeetingId, dto.UserName, dto.SelectedPokerIds);
+            await _meetingHubContext.SelectPokersAsync_BroadcastGroup(dto.MeetingId, dto.UserName, dto.SelectedPokers);
             return Ok();
         }
 

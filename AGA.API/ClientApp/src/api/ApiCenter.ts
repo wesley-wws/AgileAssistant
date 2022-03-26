@@ -1,6 +1,7 @@
 import axios from 'axios';
 import IDeck from './IDeck';
 import IMeeting from './IMeeting';
+import IParticipantPoker from './IParticipantPoker';
 
 const apiCenter = {
 	getMeetingsAsync: function () {
@@ -8,7 +9,7 @@ const apiCenter = {
 	},
 
 	getMeetingAsync: function (id: string) {
-		return axios.get<IMeeting|null>(`/api/meeting/${id}`);
+		return axios.get<IMeeting | undefined>(`/api/meeting/${id}`);
 	},
 
 	startMeetingAsync: function (topic: string, deckId: string) {
@@ -19,18 +20,21 @@ const apiCenter = {
 		return axios.post(`/api/meeting/${meetingId}/join/${userName}`);
 	},
 
-	selectedPokersAsync: function (meetingId: string, userName: string, selectedPokerIds: string[]) {
-		return axios.post(`/api/meeting/${meetingId}/participant/selectPokers`, { meetingId,userName, selectedPokerIds });
+	selectedPokerAsync: function (meetingId: string, userName: string, selectedPoker: IParticipantPoker) {
+		return axios.post(`/api/meeting/${meetingId}/participant/selectPokers`, { meetingId, userName, selectedPokers: [selectedPoker] });
+	},
+
+	selectedPokersAsync: function (meetingId: string, userName: string, selectedPokers: IParticipantPoker[]) {
+		return axios.post(`/api/meeting/${meetingId}/participant/selectPokers`, { meetingId, userName, selectedPokers });
 	},
 
 	getDecksAsync: function () {
 		return axios.get<IDeck[]>('/api/decks');
 	},
-	
-	getDeckAsync: function (deckId: string) {
-		return axios.get<IDeck|null>(`/api/deck/${deckId}`);
-	},
 
+	getDeckAsync: function (deckId: string) {
+		return axios.get<IDeck | undefined>(`/api/deck/${deckId}`);
+	},
 };
 
 export default apiCenter;

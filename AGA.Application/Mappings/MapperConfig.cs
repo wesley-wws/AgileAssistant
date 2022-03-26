@@ -26,6 +26,8 @@ internal static class ObjectMapper
 
         config.ForType<Meeting, MeetingDto>();
         config.ForType<Participant, ParticipantDto>();
+        config.ForType<ParticipantPoker, ParticipantPokerDto>();
+        config.ForType<ParticipantPokerDto, ParticipantPoker>().ConstructUsing((dto) => new ParticipantPoker(dto.ParticipantName, dto.PokerId, dto.PokerValue, dto.Id));
 
         _mapper = new Mapper(config);
     }

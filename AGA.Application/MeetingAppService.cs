@@ -1,5 +1,6 @@
 ﻿using AGA.Application.Contracts.Meetings;
 using AGA.Domain.Meetings;
+using AGA.Domain.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ public class MeetingAppService : IMeetingAppService
     }
 
 
-    public async Task JoinAsync(Guid meetingId, string userName, CancellationToken token = default)
+    public async Task<ParticipantDto> JoinAsync(Guid meetingId, string userName, CancellationToken token = default)
     {
         var meeting = await _meetingRepository.FindAsync(meetingId, token);
         if (meeting is null)
@@ -53,7 +54,8 @@ public class MeetingAppService : IMeetingAppService
             throw new ArgumentException($"Can't find meeting {meetingId}", nameof(meetingId));
         }
 
-        meeting.Join(userName);
+        var participant = meeting.Join(userName);
+        return ObjectMapper.Map<ParticipantDto>(participant);
     }
 
 
@@ -62,10 +64,11 @@ public class MeetingAppService : IMeetingAppService
         var meeting = await _meetingRepository.FindAsync(dto.MeetingId, token);
         if (meeting is null)
         {
-            throw new ArgumentException($"Can't find meeting {dto.MeetingId}", nameof(dto));
+            throw new DominEntityNotFoundException(nameof(meeting));
         }
-
-        meeting.UpdateParticipantPokers(dto.UserName, dto.SelectedPokerIds);
+        
+        var participantPokers = ObjectMapper.Map<List<ParticipantPoker>>(dto.SelectedPokers);
+        meeting.UpdateParticipantPokers(dto.UserName, participantPokers);
     }
 
 

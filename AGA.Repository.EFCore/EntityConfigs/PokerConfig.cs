@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AgileAssistant.DataAccessLayer.EntityConfigs
 {
-    internal class PokerConfig : AbstractConfig<Poker>
+    internal class PokerConfig : AbstractConfig<Poker, Guid, int>
     {
         public override void ConfigureEntity(EntityTypeBuilder<Poker> builder)
         {

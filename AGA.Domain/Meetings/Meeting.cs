@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace AGA.Domain.Meetings;
 
-public class Meeting: AbstractEntity, IAggregateRoot
+public class Meeting : AbstractEntity<Guid>, IAggregateRoot
 {
     private readonly ConcurrentDictionary<string, Participant> _participants = new();
 
-
-    public Guid Id { get; init; }
 
     public string Topic { get; private set; }
 
@@ -23,17 +21,18 @@ public class Meeting: AbstractEntity, IAggregateRoot
     public DateTime LastActiveDate { get; private set; } = DateTime.UtcNow;
 
 
-    public Meeting(Guid id, string topic,Guid deckId)
+    public Meeting(Guid id, string topic, Guid deckId)
+        : base(id)
     {
-        Id = id;
         Topic = topic;
         DeckId = deckId;
     }
 
-    public bool Join(string name)
+    public Participant Join(string name)
     {
         UpdateActiveDate();
-        return _participants.TryAdd(name, new Participant(name));
+        Participant participant = new(name, DeckId);
+        return _participants.GetOrAdd(name,participant);
     }
 
     public bool Leave(string name)
@@ -42,24 +41,24 @@ public class Meeting: AbstractEntity, IAggregateRoot
         return _participants.TryRemove(name, out _);
     }
 
-    public bool UpdateParticipantPoker(string name, Guid selectedPokerId)
+    public bool UpdateParticipantPoker(string name, ParticipantPoker selectedPoker)
     {
         UpdateActiveDate();
         if (_participants.TryGetValue(name, out Participant? participant))
         {
-            participant.SelectedPokerId = selectedPokerId;
+            participant.SelectedPoker = selectedPoker;
             return true;
         }
 
         return false;
     }
 
-    public bool UpdateParticipantPokers(string name, IEnumerable<Guid> selectedPokerIds)
+    public bool UpdateParticipantPokers(string name, IEnumerable<ParticipantPoker> selectedPokers)
     {
         UpdateActiveDate();
         if (_participants.TryGetValue(name, out Participant? participant))
         {
-            participant.SelectedPokerIds = selectedPokerIds.ToList();
+            participant.SelectedPokers = selectedPokers.ToList();
             return true;
         }
 

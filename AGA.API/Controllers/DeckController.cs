@@ -30,7 +30,7 @@ namespace AgileAssistant.Web.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<DeckDto>> GetPokerDeck(Guid id, CancellationToken cancellationToken)
+        public async Task<ActionResult<DeckDto?>> GetPokerDeck(Guid id, CancellationToken cancellationToken)
         {
             return await _deckAppService.FindDeckAsync(id, cancellationToken);
         }

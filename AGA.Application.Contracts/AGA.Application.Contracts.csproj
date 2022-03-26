@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AGA.Domain.Shared\AGA.Domain.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

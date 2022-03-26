@@ -7,19 +7,17 @@ using System.Threading.Tasks;
 
 namespace AGA.Domain.Decks;
 
-public class Deck : AbstractEntity, IAggregateRoot
+public class Deck : AbstractEntity<Guid, int>, IAggregateRoot
 {
     private List<Poker> _pokers = new();
-
-    public Guid Id { get; init; }
 
     public string Description { get; set; }
 
     public IReadOnlyList<Poker> Pokers => _pokers.OrderBy(p => p.Sequence).ToList().AsReadOnly();
 
-    public Deck(Guid id, string description)
+    public Deck(Guid id, string description) 
+        : base(id)
     {
-        Id = id;
         Description = description;
     }
 

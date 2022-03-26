@@ -10,9 +10,11 @@ public record ParticipantDto
 {
     public string Name { get; init; } = null!;
 
+    public Guid DeckId { get; set; }
+
     public bool IsPokerShown { get; set; }
 
-    public List<Guid> SelectedPokerIds { get; set; } = new List<Guid>();
+    public List<ParticipantPokerDto> SelectedPokers { get; set; } = new List<ParticipantPokerDto>();
 
-    public string? SelectedPokerId { get; set; }
+    public ParticipantPokerDto? SelectedPoker { get; set; }
 }

@@ -6,29 +6,35 @@ using System.Threading.Tasks;
 
 namespace AGA.Domain.Meetings;
 
-public class Participant : AbstractEntity
+public class Participant : AbstractEntity<string, int>
 {
-    public string Name { get; init; }
+    /// <summary>
+    /// Logic Id
+    /// </summary>
+    public string Name => Id;
 
-    public Guid? SelectedPokerId
+    public Guid DeckId { get; set; }
+
+    public ParticipantPoker? SelectedPoker
     {
-        get => SelectedPokerIds.FirstOrDefault();
+        get => SelectedPokers.FirstOrDefault();
         set
         {
-            SelectedPokerIds = new List<Guid>();
+            SelectedPokers = new List<ParticipantPoker>();
             if (value != null)
             {
-                SelectedPokerIds.Add(value.Value);
+                SelectedPokers.Add(value);
             }
         }
     }
 
-    public List<Guid> SelectedPokerIds { get; set; } = new List<Guid>();
+    public List<ParticipantPoker> SelectedPokers { get; set; } = new List<ParticipantPoker>();
 
-    public bool IsPokerShown {get;set;}
+    public bool IsPokerShown { get; set; }
 
-    public Participant(string name)
+    public Participant(string name,Guid deckId)
+        : base(name)
     {
-        Name = name;
+        DeckId = deckId;
     }
 }

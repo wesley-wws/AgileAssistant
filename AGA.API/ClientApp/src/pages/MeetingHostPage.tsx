@@ -9,16 +9,22 @@ import IParticipant from '../api/IParticipant';
 import IMeeting from '../api/IMeeting';
 import constant from '../contracts/constance';
 import IDeck from '../api/IDeck';
+import IParticipantPoker from '../api/IParticipantPoker';
 
 interface IParams {
 	meetingId: string;
+}
+
+interface IHostState {
+	meeting: IMeeting;
+	deck: IDeck;
 }
 
 function getMeetingLink(meetingId: string): string {
 	return `${window.location.protocol}//${window.location.host}/launcher/${meetingId}`;
 }
 
-const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl(constant.meetingHubUrl).build();
+//const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl(constant.meetingHubUrl).build();
 
 export default function MeetingHostPage() {
 	const params = useParams<keyof IParams>();
@@ -26,44 +32,43 @@ export default function MeetingHostPage() {
 
 	const meetingLink = params.meetingId === undefined ? '' : getMeetingLink(params.meetingId);
 
-	const [meeting, setMeeting] = useState<IMeeting | null>(null);
-	const [deck, setDeck] = useState<IDeck | null>(null);
+	const [meeting, setMeeting] = useState<IMeeting | undefined>();
+	const [deck, setDeck] = useState<IDeck | undefined>();
 	const [isShownAll, setIsShownAll] = useState<boolean>(false);
 
 	useEffect(() => {
-		//const hubConnection = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl(constant.meetingHubUrl).build();
-		hubConnection.on('AddParticipant', (meetingId: string, userName: string) => {
+		const hubConnection = new signalR.HubConnectionBuilder()
+			.withAutomaticReconnect()
+			.withUrl(constant.meetingHubUrl + `?meetingId=${params.meetingId}`)
+			.build();
+
+		hubConnection.on('AddParticipant', (meetingId: string, participant: IParticipant) => {
 			setMeeting((preMeeting) => {
-				if (preMeeting == null || meetingId !== preMeeting.id) {
+				if (preMeeting === undefined || meetingId !== preMeeting.id) {
 					return preMeeting;
 				}
-				const part = preMeeting.participants.find((p: IParticipant) => p.name === userName);
+				const part = preMeeting.participants.find((p: IParticipant) => p.name === participant.name);
 				if (part !== undefined) {
 					return preMeeting;
 				}
-				const participant: IParticipant = {
-					name: userName,
-					isPokerShown: isShownAll,
-					selectedPokerIds: [],
-					selectedPokerId: null,
-				};
+
 				const newMeeting = { ...preMeeting };
 				newMeeting.participants = [...newMeeting.participants, participant];
 				return newMeeting;
 			});
 		});
 
-		hubConnection.on('SelectPokers', (meetingId: string, userName: string, pokerIds: string[]) => {
-			setMeeting((preMeeting: IMeeting | null) => {
-				if (preMeeting == null || meetingId !== preMeeting.id) {
+		hubConnection.on('SelectPokers', (meetingId: string, userName: string, pokers: IParticipantPoker[]) => {
+			setMeeting((preMeeting: IMeeting | undefined) => {
+				if (preMeeting === undefined || meetingId !== preMeeting.id || pokers.length <= 0) {
 					return preMeeting;
 				}
 
 				preMeeting.participants = preMeeting.participants.map((p: IParticipant) => {
 					if (p.name === userName) {
-						return { ...p, selectedPokerId: pokerIds[0], selectedPokerIds: pokerIds };
+						return { ...p, selectedPoker: pokers[0] };
 					}
-					return { ...p };
+					return p;
 				});
 				return { ...preMeeting };
 			});
@@ -77,7 +82,7 @@ export default function MeetingHostPage() {
 
 			var response = await apiCenter.getMeetingAsync(params.meetingId);
 			const meetingModel = response.data;
-			if (meetingModel === null) {
+			if (meetingModel === undefined) {
 				navigate('/error', {
 					state: {
 						message: 'No meeting record.',
@@ -86,16 +91,12 @@ export default function MeetingHostPage() {
 				});
 				return;
 			}
-			hubConnection.invoke('AddToGroup', meetingModel.id);
-			setMeeting(meetingModel);
 
-			if (meetingModel == null) {
-				return;
-			}
+			setMeeting(meetingModel);
 
 			var deckResponse = await apiCenter.getDeckAsync(meetingModel.deckId);
 			const deckModel = deckResponse.data;
-			if (deckModel === null) {
+			if (deckModel === undefined) {
 				navigate('/error', {
 					state: {
 						message: 'No deck record.',
@@ -140,9 +141,9 @@ export default function MeetingHostPage() {
 								setIsShownAll((pre: boolean) => {
 									return !pre;
 								});
-								setMeeting((preMeeting: IMeeting | null) => {
-									if (preMeeting === null) {
-										return null;
+								setMeeting((preMeeting: IMeeting | undefined) => {
+									if (preMeeting === undefined) {
+										return preMeeting;
 									}
 									preMeeting.participants = preMeeting.participants.map((p: IParticipant) => ({ ...p, isPokerShown: !isShownAll }));
 									return preMeeting;

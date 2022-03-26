@@ -5,12 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AGA.Application.Contracts.Meetings;
-
 public record SelectPokersDto
 {
-    public Guid MeetingId { get; init; }
+    public Guid MeetingId { get; set; }
 
-    public string UserName { get; init; } = null!;
+    public string UserName { get; set; } = null!;
 
-    public Guid[] SelectedPokerIds { get; init; } = null!;
+    public ParticipantPokerDto[] SelectedPokers { get; set; } = null!;
 }

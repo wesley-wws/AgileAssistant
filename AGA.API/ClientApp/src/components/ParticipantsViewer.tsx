@@ -14,17 +14,10 @@ export default function ParticipantsViewer(props: IParticipantsViewer) {
 	}
 	return (
 		<Grid container justifyContent="center" sx={{ minHeight: '100%', width: '100%' }}>
-			{props.participants.map((p: IParticipant) => {
-				let selectedValue = props.deck.pokers.find((poker) => poker.id === p.selectedPokerId)?.value;
+			{props.participants.map((participant: IParticipant) => {
 				return (
-					<Grid key={p.name} item p={1}>
-						<ParticipantCard
-							name={p.name}
-							isPokerShown={p.isPokerShown}
-							deckDescription={props.deck.description}
-							selectedPokerId={p.selectedPokerId}
-							selectedPokerValue={selectedValue}
-						/>
+					<Grid key={participant.name} item p={1}>
+						<ParticipantCard {...participant} deckId={props.deck.id} />
 					</Grid>
 				);
 			})}

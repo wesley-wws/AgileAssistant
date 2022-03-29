@@ -14,9 +14,14 @@ namespace AGA.Application;
 
 internal static class ObjectMapper
 {
-    private static readonly IMapper _mapper;
+    private static readonly IMapper _mapper = InitMapper();
 
-    static ObjectMapper()
+    public static D Map<D>(object source)
+    {
+        return _mapper.Map<D>(source); 
+    }
+
+    private static IMapper InitMapper()
     {
         var config = new TypeAdapterConfig();
 
@@ -29,11 +34,6 @@ internal static class ObjectMapper
         config.ForType<ParticipantPoker, ParticipantPokerDto>();
         config.ForType<ParticipantPokerDto, ParticipantPoker>().ConstructUsing((dto) => new ParticipantPoker(dto.ParticipantName, dto.PokerId, dto.PokerValue, dto.Id));
 
-        _mapper = new Mapper(config);
-    }
-
-    public static D Map<D>(object source)
-    {
-        return _mapper.Map<D>(source); 
+        return new Mapper(config);
     }
 }

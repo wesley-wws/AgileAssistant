@@ -4,7 +4,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddLogging(configure =>
 {
-    configure.AddConsole();
+    if (builder.Environment.IsDevelopment())
+    {
+        configure.AddConsole();
+    }
 });
 
 builder.Services.AddControllers();

@@ -2,6 +2,7 @@
 
 TODO:
 
+- [ ] Add dynamic proxy
 - [ ] Host Page add sub-topic and record Story Point history feature
 - [ ] Host Page QR code center or hide
 - [ ] User Page Remove PICK button

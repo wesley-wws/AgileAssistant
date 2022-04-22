@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Stack, Paper, Typography, Button, Divider, Box } from '@mui/material';
+import { Container, Stack, Paper, Typography, Button, Divider, Box, SpeedDial, SpeedDialAction, Backdrop, SpeedDialIcon } from '@mui/material';
+import ShareIcon from '@mui/icons-material/Share';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import CloseIcon from '@mui/icons-material/Close';
 import QRCode from 'qrcode.react';
 import * as signalR from '@microsoft/signalr';
 import ParticipantsViewer from '../components/ParticipantsViewer';
 import apiCenter from '../api/ApiCenter';
 import IParticipant from '../api/IParticipant';
 import IMeeting from '../api/IMeeting';
-import constant from '../contracts/constance';
+import constant from '../contracts/constant';
 import IDeck from '../api/IDeck';
 import IParticipantPoker from '../api/IParticipantPoker';
 
@@ -35,6 +38,9 @@ export default function MeetingHostPage() {
 	const [meeting, setMeeting] = useState<IMeeting | undefined>();
 	const [deck, setDeck] = useState<IDeck | undefined>();
 	const [isShownAll, setIsShownAll] = useState<boolean>(false);
+	const [isOpenShare, setIsOpenShare] = useState(false);
+	const handleOpenShare = () => setIsOpenShare(true);
+	const handleCloseShare = () => setIsOpenShare(false);
 
 	useEffect(() => {
 		const hubConnection = new signalR.HubConnectionBuilder()
@@ -66,7 +72,7 @@ export default function MeetingHostPage() {
 
 				preMeeting.participants = preMeeting.participants.map((p: IParticipant) => {
 					if (p.name === userName) {
-						return { ...p, selectedPoker: pokers[0] };
+						return { ...p, selectedPoker: pokers[0], isPickedPoker: true };
 					}
 					return p;
 				});
@@ -145,7 +151,7 @@ export default function MeetingHostPage() {
 									if (preMeeting === undefined) {
 										return preMeeting;
 									}
-									preMeeting.participants = preMeeting.participants.map((p: IParticipant) => ({ ...p, isPokerShown: !isShownAll }));
+									preMeeting.participants = preMeeting.participants.map((p: IParticipant) => ({ ...p, isPokerShown: !isShownAll, isPickedPoker: !isShownAll }));
 									return preMeeting;
 								});
 							}}
@@ -153,13 +159,24 @@ export default function MeetingHostPage() {
 							Open/Hide
 						</Button>
 						<ParticipantsViewer participants={meeting.participants} deck={deck} />
-						<Button
-							sx={{
-								marginTop: '20px',
-								alignSelf: 'center',
-							}}
-							variant="contained"
-							color="primary"
+					</Stack>
+					<Backdrop sx={{ bgcolor: 'gray.900' }} open={isOpenShare}>
+						<Box>
+							<QRCode value={meetingLink} size={400} />
+						</Box>
+					</Backdrop>
+					<SpeedDial
+						ariaLabel="Share"
+						open={isOpenShare}
+						sx={{ position: 'absolute', bottom: 16, right: 16 }}
+						icon={<SpeedDialIcon icon={<ShareIcon />} openIcon={<CloseIcon />} />}
+						onClose={handleCloseShare}
+						onOpen={handleOpenShare}
+					>
+						<SpeedDialAction
+							key={'Copy Meeting Link'}
+							icon={<ContentCopyIcon />}
+							tooltipTitle={'Copy Meeting Link'}
 							onClick={(e) => {
 								if (navigator.clipboard && window.isSecureContext) {
 									// navigator clipboard api method'
@@ -182,13 +199,8 @@ export default function MeetingHostPage() {
 									});
 								}
 							}}
-						>
-							Copy Meeting Link
-						</Button>
-						<Box>
-							<QRCode value={meetingLink} />
-						</Box>
-					</Stack>
+						/>
+					</SpeedDial>
 				</Container>
 			)}
 		</>

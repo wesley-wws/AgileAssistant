@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import CenterLayout from './CenterLayout';
 import MeetingsViewer from '../components/MeetingsViewer';
 import * as signalR from '@microsoft/signalr';
-import constant from '../contracts/constance';
+import constant from '../contracts/constant';
 
 export default function MeetingsPage() {
 	useEffect(() => {

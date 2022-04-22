@@ -5,4 +5,6 @@ export default interface IParticipant {
 	deckId:string;
 	isPokerShown: boolean;
 	selectedPoker: IParticipantPoker | undefined;
+
+	isPickedPoker?: boolean;
 }

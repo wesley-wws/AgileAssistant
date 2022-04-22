@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D1820CCA-260E-436F-B033-C6A0A438E3B2}"
 	ProjectSection(SolutionItems) = preProject
 		azure-pipelines.yml = azure-pipelines.yml
+		README.md = README.md
 		TempCmd.txt = TempCmd.txt
 	EndProjectSection
 EndProject
@@ -27,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGA.Repository.EFCore", "AG
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGA.Hubs", "AGA.Hubs\AGA.Hubs.csproj", "{BA31EBA2-0C6B-4044-B8E6-7061A92FDFBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AGA.API.DependencyInjectionExtensions", "AGA.API.DependencyInjectionExtensions\AGA.API.DependencyInjectionExtensions.csproj", "{60CCC238-A616-47CF-9730-A211CDB0BDCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AGA.API.DependencyInjectionExtensions", "AGA.API.DependencyInjectionExtensions\AGA.API.DependencyInjectionExtensions.csproj", "{60CCC238-A616-47CF-9730-A211CDB0BDCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

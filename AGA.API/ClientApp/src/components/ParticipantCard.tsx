@@ -1,9 +1,12 @@
-import { Card, CardContent, Typography, Divider } from '@mui/material';
+import { Card, CardContent, Typography, Divider, Badge, Chip, Stack, Grid, Box } from '@mui/material';
+import Skeleton from '@mui/material/Skeleton';
+import CheckIcon from '@mui/icons-material/Check';
 import IParticipant from '../api/IParticipant';
 import IPoker from '../api/IPoker';
 import PokerCard from './PokerCard';
 
-interface IParticipantCard extends IParticipant {}
+interface IParticipantCard extends IParticipant {
+}
 
 export default function ParticipantCard(props: IParticipantCard) {
 	let poker: IPoker | undefined;
@@ -12,7 +15,13 @@ export default function ParticipantCard(props: IParticipantCard) {
 	}
 	return (
 		<Card elevation={3}>
-			{<PokerCard poker={poker} isShown={props.isPokerShown} deckId={props.deckId} />}
+			{props.isPickedPoker ? (
+				<PokerCard poker={poker} isShown={props.isPokerShown} deckId={props.deckId} />
+			) : (
+				<Skeleton variant="rectangular" animation="wave" sx={{ bgcolor: 'grey.200' }}>
+					<PokerCard poker={poker} isShown={props.isPokerShown} deckId={props.deckId} />
+				</Skeleton>
+			)}
 			<Divider />
 			<CardContent
 				sx={{

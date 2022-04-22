@@ -11,7 +11,8 @@ TODO:
 - [ ] Host Page Participants Order feature
 - [ ] Host Page drop participant feature
 - [ ] Username is not case sensitive
-- [ ] Default use last used username
+- [x] User select poker notification
+- [x] Default use last used username
 - [x] Custom version poker for planning
 - [x] Html version poker
 - [x] Svg version poker

@@ -4,7 +4,7 @@ TODO:
 
 - [ ] Add dynamic proxy
 - [ ] Host Page add sub-topic and record Story Point history feature
-- [ ] Host Page QR code center or hide
+- [x] Host Page QR code center or hide
 - [ ] User Page Remove PICK button
 - [ ] Host Page Participants Sum Story Point
 - [ ] Host Page Participants Group feature

@@ -22,7 +22,7 @@ public abstract class AbstractEntity<TId> : AbstractEntity
 {
     public TId Id { get; init; }
 
-    public AbstractEntity(TId id)
+    protected AbstractEntity(TId id)
     {
         Id = id;
     }

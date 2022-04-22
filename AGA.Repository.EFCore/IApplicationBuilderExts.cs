@@ -13,7 +13,6 @@ public static class IApplicationBuilderExts
 {
     public static IApplicationBuilder AddDbContextSeed(this IApplicationBuilder app)
     {
-        // TODO: move
         using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>()!.CreateScope())
         {
             var context = serviceScope.ServiceProvider.GetRequiredService<AgileAssistantDBContext>();

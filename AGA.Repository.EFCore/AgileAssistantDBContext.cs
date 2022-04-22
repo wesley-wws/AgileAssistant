@@ -18,9 +18,9 @@ public class AgileAssistantDBContext : DbContext
 
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        options.LogTo(Console.WriteLine);
+        //options.LogTo(Console.WriteLine);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

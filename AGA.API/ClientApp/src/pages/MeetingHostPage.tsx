@@ -160,7 +160,7 @@ export default function MeetingHostPage() {
 						</Button>
 						<ParticipantsViewer participants={meeting.participants} deck={deck} />
 					</Stack>
-					<Backdrop sx={{ bgcolor: 'gray.900' }} open={isOpenShare}>
+					<Backdrop sx={{ bgcolor: 'gray.900' }} open={isOpenShare} onClick={() => setIsOpenShare(!isOpenShare)}>
 						<Box>
 							<QRCode value={meetingLink} size={400} />
 						</Box>
@@ -170,8 +170,9 @@ export default function MeetingHostPage() {
 						open={isOpenShare}
 						sx={{ position: 'absolute', bottom: 16, right: 16 }}
 						icon={<SpeedDialIcon icon={<ShareIcon />} openIcon={<CloseIcon />} />}
-						onClose={handleCloseShare}
-						onOpen={handleOpenShare}
+						//onClose={(event, reason) => {console.log(reason);setIsOpenShare(false);}}
+						//onOpen={(event, reason) => {console.log(reason);setIsOpenShare(true);}}
+						onClick={() => setIsOpenShare(!isOpenShare)}
 					>
 						<SpeedDialAction
 							key={'Copy Meeting Link'}

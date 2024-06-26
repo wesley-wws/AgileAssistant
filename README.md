@@ -1,5 +1,9 @@
 # AgileAssistant
 
+Development Environment
+- .Net 6 SDK
+- Node.js v16.20.2
+
 TODO:
 
 - [ ] Add dynamic proxy

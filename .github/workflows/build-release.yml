@@ -1,0 +1,46 @@
+
+name: Docker Image CI
+
+on:
+  workflow_dispatch:
+  # push:
+    # branches: [ "main" ]
+  # pull_request:
+    # branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_TAG: ${{ github.sha }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Log in to ACR
+        uses: aliyun/acr-login@v1
+        with:
+          login-server: crpi-0pkif4tmh6qs32ql.cn-beijing.personal.cr.aliyuncs.com
+          username: "${{ secrets.ALI_REGISTRY_USERNAME }}"
+          password: "${{ secrets.ALI_REGISTRY_PASSWORD }}"
+      - name: Show files
+        run: ls
+      - name: Build Docker image
+        run: docker build -t crpi-0pkif4tmh6qs32ql.cn-beijing.personal.cr.aliyuncs.com/wesley4527/planningpoker:latest -f AGA.API/Dockerfile .
+      - name: Push Docker image
+        run: docker push crpi-0pkif4tmh6qs32ql.cn-beijing.personal.cr.aliyuncs.com/wesley4527/planningpoker:latest
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: SSH and deploy
+        uses:  appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          port: 22
+          password: ${{ secrets.SERVER_PASS }}
+          script: |
+            docker pull crpi-0pkif4tmh6qs32ql.cn-beijing.personal.cr.aliyuncs.com/wesley4527/planningpoker:latest
+            docker stop softwareplanning || true
+            docker rm softwareplanning || true
+            docker run -d --name softwareplanning -p 5000:8080 crpi-0pkif4tmh6qs32ql.cn-beijing.personal.cr.aliyuncs.com/wesley4527/planningpoker:latest

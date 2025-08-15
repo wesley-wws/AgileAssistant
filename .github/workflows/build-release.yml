@@ -43,4 +43,4 @@ jobs:
             docker pull crpi-0pkif4tmh6qs32ql.cn-beijing.personal.cr.aliyuncs.com/wesley4527/planningpoker:latest
             docker stop softwareplanning || true
             docker rm softwareplanning || true
-            docker run -d --name softwareplanning -p 5000:8080 crpi-0pkif4tmh6qs32ql.cn-beijing.personal.cr.aliyuncs.com/wesley4527/planningpoker:latest
+            docker run -d --name softwareplanning -p 5000:80 crpi-0pkif4tmh6qs32ql.cn-beijing.personal.cr.aliyuncs.com/wesley4527/planningpoker:latest
